@@ -27,49 +27,78 @@ https://www.w3schools.com/colors/colors_picker.asp
 
 	// Saturation constants
 
+	const sat1 = 14;
+	const sat2 = 28;
+	const sat3 = 42;
+	const sat4 = 57;
+	const sat5 = 71;
+	const sat6 = 85;
+	const sat7 = 99;
+
 	// Lightness constants
 
+	const light1 = 14;
+	const light2 = 28;
+	const light3 = 42;
+	const light4 = 57;
+	const light5 = 71;
+	const light6 = 85;
+	const light7 = 99;
 
 	// Saturation presets
 
+	// TODO
+	// Let user choose presets? implement later
+
+	const sat_standard = [sat1, sat3, sat5, sat7, sat5, sat3, sat1];
+	
+	/* maybe don't need
+	const sat_dull =     [sat1, sat1, sat2, sat3, sat2, sat1, sat1];
+	const sat_heav =     [sat5, sat6, sat6, sat7, sat6, sat6, sat5];
+	const sat_mid =      [sat2, sat3, sat4, sat5, sat4, sat3, sat2];
+	const sat_one =      [sat2, sat2, sat2, sat4, sat2, sat2, sat2];
+	const sat_two =      [sat4, sat2, sat4, sat2, sat2, sat2, sat2];
+	*/
+
 	// Lightness presets
 
+	const light_standard = [light1, light3, light5, light7, light5, light3, light1];
 
-	// Palette array initialization
+	// Palette array initialization and conversion functions
 
-		const palette = [];
+	const palette = [];
 
-		function initializePalette() {
+	function initializePalette() {
 
-			for (let i = 0; i < 7; i++) {
-				// [H, S, L] values
-				palette[i] = [120, 60, 70];
-			}
-
-			// test
-			console.log(palette);
-		}
-
-		const HSLpalette = [];
-
-		function convertArrayToHSL(array) {
-
-			for (let i = 0; i < 7; i++) {
-
-				HSLpalette[i] = "hsl(" + array[i][0] + ", " + array[i][1] + "%, " + array[i][2] + "%)"; 
-			}
-
-			// test
-			console.log(HSLpalette);
+		for (let i = 0; i < 7; i++) {
+			// [H, S, L] values
+			palette[i] = [120, 60, 70];
 		}
 
 		// test
-		function changeColor(){
-			for (let i = 0; i < 7; i++) {
-				// [H, S, L] values
-				palette[i] = [180, 70, 70];
-			}
+		console.log(palette);
+	}
+
+	const HSLpalette = [];
+
+	function convertArrayToHSL() {
+
+		for (let i = 0; i < 7; i++) {
+
+			HSLpalette[i] = "hsl(" + palette[i][0] + ", " + palette[i][1] + "%, " + palette[i][2] + "%)"; 
 		}
+
+		// test
+		console.log(HSLpalette);
+	}
+
+	// test
+	function changeColor(){
+		for (let i = 0; i < 7; i++) {
+			// [H, S, L] values
+			palette[i][0] = [180];
+		}
+	}
 
 
 // Input color / default color (randomly selected when loading page)
@@ -134,6 +163,17 @@ https://www.w3schools.com/colors/colors_picker.asp
 
 		// Tetradic
 
+		// Test
+		function loadColor() {
+			let a;
+
+			for (let i = 0; i < 7; i++) {
+				a = Math.floor(Math.random() * 361);
+				// [H, S, L] values
+				palette[i][0] = [a];
+			}
+
+		}
 
 	// Saturation
 
@@ -141,6 +181,15 @@ https://www.w3schools.com/colors/colors_picker.asp
 	   Not all saturation values need to be used
 	*/
 	
+	function loadSaturation() {
+
+		for (let i = 0; i < 7; i++) {
+				// [H, S, L] values
+				palette[i][1] = [sat_standard[i]];
+			}
+		// Test
+		console.log(palette);
+	}
 
 	// Lightness
 
@@ -170,6 +219,30 @@ https://www.w3schools.com/colors/colors_picker.asp
 // TESTING
 
 function changeStyle(){
-        var element = document.getElementById("myDiv");
+        var element = document.getElementById("myDiv1");
         element.style.backgroundColor = HSLpalette[0];
+
+        var element = document.getElementById("myDiv2");
+        element.style.backgroundColor = HSLpalette[1];
+
+        var element = document.getElementById("myDiv3");
+        element.style.backgroundColor = HSLpalette[2];
+
+        var element = document.getElementById("myDiv4");
+        element.style.backgroundColor = HSLpalette[3];
+
+        var element = document.getElementById("myDiv5");
+        element.style.backgroundColor = HSLpalette[4];
+
+        var element = document.getElementById("myDiv6");
+        element.style.backgroundColor = HSLpalette[5];
+
+        var element = document.getElementById("myDiv7");
+        element.style.backgroundColor = HSLpalette[6];
     }
+
+    //when "generate" button pressed -> take user input color
+    // read option values
+    // call respective population functions
+    // populate array
+    // display colors on html site
