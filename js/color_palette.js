@@ -12,6 +12,7 @@ Code:
 https://www.ethangardner.com/articles/2009/03/15/a-math-based-approach-to-color-theory-using-hue-saturation-and-brightness-hsb/
 https://css-tricks.com/converting-color-spaces-in-javascript/
 http://www.easyrgb.com/en/math.php
+https://www.techonthenet.com/js/continue.php
 
 General Reference: 
 
@@ -123,6 +124,8 @@ https://www.w3schools.com/colors/colors_picker.asp
 
 
 // Color calculation functions
+// Take hsl hue value as input, calculate corresponding colors
+// Stick them into new array for poplating functions to use
 
 		// Greyscale
 
@@ -154,6 +157,12 @@ https://www.w3schools.com/colors/colors_picker.asp
 	   Place final colors into global palette array
 	*/
 
+	/* Take input array of known length (based on number of colors)
+
+
+
+	*/
+
 		// Greyscale
 
 		// Monochromatic
@@ -182,7 +191,12 @@ https://www.w3schools.com/colors/colors_picker.asp
 				b = Math.floor(Math.random() * 361);
 				c = Math.floor(Math.random() * 361);
 				d = Math.floor(Math.random() * 361);
+				  // use array to store a, b, c , d etc 
+					// for actual function assign variablearray[0]  = inputarray[huevalue0];
+					// etc etc
 
+					// array for anum -> loop to assign based on length of variable array
+					// in loop default assign them random values
 				let anum;
 				let bnum;
 				let cnum;
@@ -192,7 +206,15 @@ https://www.w3schools.com/colors/colors_picker.asp
 				bnum = Math.floor(Math.random() * 100);
 				cnum = Math.floor(Math.random() * 100);
 				dnum = Math.floor(Math.random() * 100);
-
+				// when comparing it will be ranarray[0] >= ranarray[1] etc 
+				// using for loop 
+				// look into Math.max
+				/*
+					var arr = [1,2,3];
+					var max = arr.reduce(function(a, b) {
+   				return Math.max(a, b);
+					}, -Infinity);
+				*/
 				if ((anum >= bnum) && (anum >= cnum) && (anum >= dnum)) {
 					// [H, S, L] values
 					palette[i][0] = [a];
@@ -210,6 +232,12 @@ https://www.w3schools.com/colors/colors_picker.asp
 				b = 0;
 				c = 0;
 				d = 0;
+
+				// use includes() to check if all colors are in array at least once
+				// if not use if statement to reassign a value 
+				// then check by going through all the colors again
+				// using for / while loop? 
+				// look into using continue[] to restart loop if any of the if statements are entered
 			}
 
 		}
