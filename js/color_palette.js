@@ -170,21 +170,29 @@ https://www.w3schools.com/colors/colors_picker.asp
 
 		// Test
 		function loadColor() {
-			let a = Math.floor(Math.random() * 361);
-			let b = Math.floor(Math.random() * 361);
-			let c = Math.floor(Math.random() * 361);
-			let d = Math.floor(Math.random() * 361);
-
-			let anum;
-			let bnum;
-			let cnum;
-			let dnum;
+			
 
 			for (let i = 0; i < 7; i++) {
+				let a = 0;
+				let b = 0;
+				let c = 0;
+				let d = 0;
+
+				a = Math.floor(Math.random() * 361);
+				b = Math.floor(Math.random() * 361);
+				c = Math.floor(Math.random() * 361);
+				d = Math.floor(Math.random() * 361);
+
+				let anum;
+				let bnum;
+				let cnum;
+				let dnum;
+
 				anum = Math.floor(Math.random() * 100);
 				bnum = Math.floor(Math.random() * 100);
 				cnum = Math.floor(Math.random() * 100);
 				dnum = Math.floor(Math.random() * 100);
+
 				if (anum >= bnum) {
 					// [H, S, L] values
 					palette[i][0] = [a];
@@ -198,6 +206,10 @@ https://www.w3schools.com/colors/colors_picker.asp
 				else {
 					palette[i][0] = [d];
 				}
+				a = 0;
+				b = 0;
+				c = 0;
+				d = 0;
 			}
 
 		}
@@ -221,17 +233,23 @@ https://www.w3schools.com/colors/colors_picker.asp
 
 	// Test
 	function loadSatRand() {
-			let a = Math.floor(Math.random() * 101);
-			let b = Math.floor(Math.random() * 101);
-			let c = Math.floor(Math.random() * 101);
-			let d = Math.floor(Math.random() * 101);
-
-			let anum;
-			let bnum;
-			let cnum;
-			let dnum;
-
+			
 			for (let i = 0; i < 7; i++) {
+				let a = 0;
+				let b = 0;
+				let c = 0;
+				let d = 0;
+
+				a = Math.floor(Math.random() * 101);
+				b = Math.floor(Math.random() * 101);
+				c = Math.floor(Math.random() * 101);
+				d = Math.floor(Math.random() * 101);
+
+				let anum;
+				let bnum;
+				let cnum;
+				let dnum;
+
 				anum = Math.floor(Math.random() * 100);
 				bnum = Math.floor(Math.random() * 100);
 				cnum = Math.floor(Math.random() * 100);
