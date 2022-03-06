@@ -329,6 +329,9 @@ https://www.w3schools.com/colors/colors_picker.asp
 // Color Display (maybe do this in the html and css files)
 
 // TESTING
+window.onload = function() {
+  initializePalette();
+};
 
 function changeStyle(){
 
