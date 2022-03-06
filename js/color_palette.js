@@ -165,12 +165,34 @@ https://www.w3schools.com/colors/colors_picker.asp
 
 		// Test
 		function loadColor() {
-			let a;
+			let a = Math.floor(Math.random() * 361);
+			let b = Math.floor(Math.random() * 361);
+			let c = Math.floor(Math.random() * 361);
+			let d = Math.floor(Math.random() * 361);
+
+			let anum;
+			let bnum;
+			let cnum;
+			let dnum;
 
 			for (let i = 0; i < 7; i++) {
-				a = Math.floor(Math.random() * 361);
-				// [H, S, L] values
-				palette[i][0] = [a];
+				anum = Math.floor(Math.random() * 100);
+				bnum = Math.floor(Math.random() * 100);
+				cnum = Math.floor(Math.random() * 100);
+				dnum = Math.floor(Math.random() * 100);
+				if (anum >= bnum) {
+					// [H, S, L] values
+					palette[i][0] = [a];
+				}
+				else if (bnum >= cnum) {
+					palette[i][0] = [b];
+				}
+				else if (cnum >= dnum) {
+					palette[i][0] = [c];
+				}
+				else {
+					palette[i][0] = [d];
+				}
 			}
 
 		}
@@ -191,7 +213,83 @@ https://www.w3schools.com/colors/colors_picker.asp
 		console.log(palette);
 	}
 
+	function loadSatRand() {
+			let a = Math.floor(Math.random() * 101);
+			let b = Math.floor(Math.random() * 101);
+			let c = Math.floor(Math.random() * 101);
+			let d = Math.floor(Math.random() * 101);
+
+			let anum;
+			let bnum;
+			let cnum;
+			let dnum;
+
+			for (let i = 0; i < 7; i++) {
+				anum = Math.floor(Math.random() * 100);
+				bnum = Math.floor(Math.random() * 100);
+				cnum = Math.floor(Math.random() * 100);
+				dnum = Math.floor(Math.random() * 100);
+				if (anum >= bnum) {
+					// [H, S, L] values
+					palette[i][1] = [a];
+				}
+				else if (bnum >= cnum) {
+					palette[i][1] = [b];
+				}
+				else if (cnum >= dnum) {
+					palette[i][1] = [c];
+				}
+				else {
+					palette[i][1] = [d];
+				}
+			}
+
+		}
 	// Lightness
+
+	// Test
+	function loadLight() {
+
+		for (let i = 0; i < 7; i++) {
+				// [H, S, L] values
+				palette[i][2] = [light_standard[i]];
+			}
+		// Test
+		console.log(palette);
+	}
+
+	function loadLightRand() {
+			let a = Math.floor(Math.random() * 101);
+			let b = Math.floor(Math.random() * 101);
+			let c = Math.floor(Math.random() * 101);
+			let d = Math.floor(Math.random() * 101);
+
+			let anum;
+			let bnum;
+			let cnum;
+			let dnum;
+
+			for (let i = 0; i < 7; i++) {
+				anum = Math.floor(Math.random() * 100);
+				bnum = Math.floor(Math.random() * 100);
+				cnum = Math.floor(Math.random() * 100);
+				dnum = Math.floor(Math.random() * 100);
+				if (anum >= bnum) {
+					// [H, S, L] values
+					palette[i][2] = [a];
+				}
+				else if (bnum >= cnum) {
+					palette[i][2] = [b];
+				}
+				else if (cnum >= dnum) {
+					palette[i][2] = [c];
+				}
+				else {
+					palette[i][2] = [d];
+				}
+			}
+
+		}
 
 	/* Depending on user choice:
 	   1. Randomly assign lightness values using same logic as 'Hue' above
@@ -199,7 +297,14 @@ https://www.w3schools.com/colors/colors_picker.asp
 	   2. Apply preset lightness values to the global palette array
 	*/
 
- 
+ 	// Test
+
+ 	function Load() {
+ 		loadColor();
+ 		loadSatRand();
+ 		loadLightRand();
+ 	}
+
 // Microadjustment functions
 // Adjust array values so they fall within a certain range
 // Allow for small user adjustments
@@ -219,6 +324,11 @@ https://www.w3schools.com/colors/colors_picker.asp
 // TESTING
 
 function changeStyle(){
+
+		Load();
+
+		convertArrayToHSL();
+
         var element = document.getElementById("myDiv1");
         element.style.backgroundColor = HSLpalette[0];
 
@@ -239,6 +349,8 @@ function changeStyle(){
 
         var element = document.getElementById("myDiv7");
         element.style.backgroundColor = HSLpalette[6];
+
+
     }
 
     //when "generate" button pressed -> take user input color
