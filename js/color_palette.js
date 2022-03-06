@@ -37,6 +37,39 @@ https://www.w3schools.com/colors/colors_picker.asp
 
 	// Palette array initialization
 
+		const palette = [];
+
+		function initializePalette() {
+
+			for (let i = 0; i < 7; i++) {
+				// [H, S, L] values
+				palette[i] = [120, 60, 70];
+			}
+
+			// test
+			console.log(palette);
+		}
+
+		const HSLpalette = [];
+
+		function convertArrayToHSL(array) {
+
+			for (let i = 0; i < 7; i++) {
+
+				HSLpalette[i] = "hsl(" + array[i][0] + ", " + array[i][1] + "%, " + array[i][2] + "%)"; 
+			}
+
+			// test
+			console.log(HSLpalette);
+		}
+
+		// test
+		function changeColor(){
+			for (let i = 0; i < 7; i++) {
+				// [H, S, L] values
+				palette[i] = [180, 70, 70];
+			}
+		}
 
 
 // Input color / default color (randomly selected when loading page)
@@ -133,3 +166,10 @@ https://www.w3schools.com/colors/colors_picker.asp
 
 
 // Color Display (maybe do this in the html and css files)
+
+// TESTING
+
+function changeStyle(){
+        var element = document.getElementById("myDiv");
+        element.style.backgroundColor = HSLpalette[0];
+    }
