@@ -20,6 +20,11 @@ https://www.w3schools.com/colors/colors_picker.asp
 
 */
 
+// TODO delete everything with "test" label 
+// add random math option when loading in values (hue and sat and light) to spice things up a little (just a little)
+//			want them to be slightly off mathematically calculated exact value (at most 5 off from either side)
+// add in check to see all colors are distinct from each other (if all three values too close when comparing the two then redo one of them)
+
 
 // Constants / Presets / Variables
 	
@@ -203,6 +208,7 @@ https://www.w3schools.com/colors/colors_picker.asp
 	   Not all saturation values need to be used
 	*/
 	
+	// Test
 	function loadSaturation() {
 
 		for (let i = 0; i < 7; i++) {
@@ -213,6 +219,7 @@ https://www.w3schools.com/colors/colors_picker.asp
 		console.log(palette);
 	}
 
+	// Test
 	function loadSatRand() {
 			let a = Math.floor(Math.random() * 101);
 			let b = Math.floor(Math.random() * 101);
@@ -258,6 +265,7 @@ https://www.w3schools.com/colors/colors_picker.asp
 		console.log(palette);
 	}
 
+	// Test
 	function loadLightRand() {
 			let a = Math.floor(Math.random() * 101);
 			let b = Math.floor(Math.random() * 101);
@@ -298,7 +306,6 @@ https://www.w3schools.com/colors/colors_picker.asp
 	*/
 
  	// Test
-
  	function Load() {
  		loadColor();
  		loadSatRand();
