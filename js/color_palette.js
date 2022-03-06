@@ -193,11 +193,11 @@ https://www.w3schools.com/colors/colors_picker.asp
 				cnum = Math.floor(Math.random() * 100);
 				dnum = Math.floor(Math.random() * 100);
 
-				if (anum >= bnum) {
+				if ((anum >= bnum) && (anum >= cnum) && (anum >= dnum)) {
 					// [H, S, L] values
 					palette[i][0] = [a];
 				}
-				else if (bnum >= cnum) {
+				else if ((bnum >= cnum) && (bnum >= dnum)) {
 					palette[i][0] = [b];
 				}
 				else if (cnum >= dnum) {
@@ -254,11 +254,11 @@ https://www.w3schools.com/colors/colors_picker.asp
 				bnum = Math.floor(Math.random() * 100);
 				cnum = Math.floor(Math.random() * 100);
 				dnum = Math.floor(Math.random() * 100);
-				if (anum >= bnum) {
+				if ((anum >= bnum) && (anum >= cnum) && (anum >= dnum)) {
 					// [H, S, L] values
 					palette[i][1] = [a];
 				}
-				else if (bnum >= cnum) {
+				else if ((bnum >= cnum) && (bnum >= dnum)) {
 					palette[i][1] = [b];
 				}
 				else if (cnum >= dnum) {
@@ -300,11 +300,11 @@ https://www.w3schools.com/colors/colors_picker.asp
 				bnum = Math.floor(Math.random() * 100);
 				cnum = Math.floor(Math.random() * 100);
 				dnum = Math.floor(Math.random() * 100);
-				if (anum >= bnum) {
+				if ((anum >= bnum) && (anum >= cnum) && (anum >= dnum)) {
 					// [H, S, L] values
 					palette[i][2] = [a];
 				}
-				else if (bnum >= cnum) {
+				else if ((bnum >= cnum) && (bnum >= dnum)) {
 					palette[i][2] = [b];
 				}
 				else if (cnum >= dnum) {
@@ -326,8 +326,10 @@ https://www.w3schools.com/colors/colors_picker.asp
  	// Test
  	function Load() {
  		loadColor();
+ 		//loadSaturation();
  		loadSatRand();
  		loadLightRand();
+ 		//loadLight();
  	}
 
 // Microadjustment functions
