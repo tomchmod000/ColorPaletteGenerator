@@ -13,6 +13,7 @@ https://www.ethangardner.com/articles/2009/03/15/a-math-based-approach-to-color-
 https://css-tricks.com/converting-color-spaces-in-javascript/
 http://www.easyrgb.com/en/math.php
 https://www.techonthenet.com/js/continue.php
+https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/color
 
 General Reference: 
 
@@ -23,7 +24,7 @@ https://www.w3schools.com/colors/colors_picker.asp
 
 // TODO delete everything with "test" label 
 // add random math option when loading in values (hue and sat and light) to spice things up a little (just a little)
-//			want them to be slightly off mathematically calculated exact value (at most 5 off from either side)
+//			want them to be slightly off mathematically calculated exact value (at most 5? 10? 15?  off from either side)
 // add in check to see all colors are distinct from each other (if all three values too close when comparing the two then redo one of them)
 
 
@@ -188,6 +189,7 @@ https://www.w3schools.com/colors/colors_picker.asp
 				let d = 0;
 
 				a = Math.floor(Math.random() * 361);
+				//a = event.target.value;
 				b = Math.floor(Math.random() * 361);
 				c = Math.floor(Math.random() * 361);
 				d = Math.floor(Math.random() * 361);
@@ -197,6 +199,9 @@ https://www.w3schools.com/colors/colors_picker.asp
 
 					// array for anum -> loop to assign based on length of variable array
 					// in loop default assign them random values
+					// create separate function for these array initializations?
+
+					// also function for checking if hsl numbers are too close
 				let anum;
 				let bnum;
 				let cnum;
@@ -380,6 +385,32 @@ https://www.w3schools.com/colors/colors_picker.asp
 window.onload = function() {
   initializePalette();
 };
+
+var colorWell;
+var defaultColor = "#0000ff";
+
+window.addEventListener("load", startup, false);
+
+function startup() {
+  colorWell = document.querySelector("#colorWell");
+  colorWell.value = defaultColor;
+  colorWell.addEventListener("input", updateFirst, false);
+  colorWell.addEventListener("change", updateAll, false);
+  colorWell.select();
+}
+function updateFirst(event) {
+  var p = document.querySelector("p");
+
+  if (p) {
+    p.style.color = event.target.value;
+  }
+}
+function updateAll(event) {
+  document.querySelectorAll("p").forEach(function(p) {
+    p.style.color = event.target.value;
+  });
+}
+// use above updateall to change input color that gets fed into functions
 
 function changeStyle(){
 
