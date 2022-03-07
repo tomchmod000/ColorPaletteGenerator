@@ -236,18 +236,19 @@ let input_light = 0;
 
 		// Test
 		function loadColor() {
-			
+			/*
 				let a = 0;
 				let b = 0;
 				let c = 0;
 				let d = 0;
+				*/
 
 				//a = Math.floor(Math.random() * 361);
 				//a = event.target.value;
-				a = input_hue;
-				b = Math.floor(Math.random() * 361);
-				c = Math.floor(Math.random() * 361);
-				d = Math.floor(Math.random() * 361);
+				let a = input_hue;
+				let b = Math.floor(Math.random() * 361);
+				let c = Math.floor(Math.random() * 361);
+				let d = Math.floor(Math.random() * 361);
 
 			for (let i = 0; i < 7; i++) {
 				  // use array to store a, b, c , d etc 
@@ -290,10 +291,6 @@ let input_light = 0;
 				else {
 					palette[i][0] = [d];
 				}
-				a = 0;
-				b = 0;
-				c = 0;
-				d = 0;
 
 				// use includes() to check if all colors are in array at least once
 				// if not use if statement to reassign a value 
