@@ -498,6 +498,12 @@ function changeStyle(){
         element.style.backgroundColor = HSLpalette[6];
 
 
+				const para = document.getElementById("para"); 
+
+        para.textContent = "hex = " + input_hex + ", hue = " + input_hue + ", sat = " + input_sat + ", light = " + input_light;
+
+
+
     }
 
     //when "generate" button pressed -> take user input color
