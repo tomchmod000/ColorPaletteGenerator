@@ -128,7 +128,8 @@ let input_light = 0;
 
 	// Hex to HSL
 
-	function hexToHSL(H) {
+	function hexToHSL(H) { // copy pasted, edit later to suit needs
+		// usually don't need return string, just save values
   // Convert hex to RGB first
   let r = 0, g = 0, b = 0;
   if (H.length == 4) {
@@ -412,6 +413,7 @@ let input_light = 0;
 
  	// Test
  	function Load() {
+ 		hexToHSL(input_hex);
  		loadColor();
  		//loadSaturation();
  		loadSatRand();
@@ -462,9 +464,11 @@ function updateFirst(event) {
 function updateAll(event) {
   document.querySelectorAll("p").forEach(function(p) {
     p.style.color = event.target.value;
+    input_hex = event.target.value;
   });
-}
+ }
 // use above updateall to change input color that gets fed into functions
+
 
 function changeStyle(){
 
