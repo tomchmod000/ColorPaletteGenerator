@@ -14,6 +14,8 @@ https://css-tricks.com/converting-color-spaces-in-javascript/
 http://www.easyrgb.com/en/math.php
 https://www.techonthenet.com/js/continue.php
 https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/color
+https://sebhastian.com/javascript-change-text-on-page/
+https://stackoverflow.com/questions/8739605/getelementbyid-returns-null
 
 General Reference: 
 
@@ -26,14 +28,16 @@ https://www.w3schools.com/colors/colors_picker.asp
 // add random math option when loading in values (hue and sat and light) to spice things up a little (just a little)
 //			want them to be slightly off mathematically calculated exact value (at most 5? 10? 15?  off from either side)
 // add in check to see all colors are distinct from each other (if all three values too close when comparing the two then redo one of them)
-
+// update sat and light load logic to match loadcolor
 
 // Constants / Presets / Variables
 	
 	// Hue constants
 
-	// Saturation constants
+		// define basic primarys, secondarys, some neutrals, greyscale
 
+	// Saturation constants
+	// might need to be updated into an array instead
 	const sat1 = 14;
 	const sat2 = 28;
 	const sat3 = 42;
@@ -50,14 +54,14 @@ https://www.w3schools.com/colors/colors_picker.asp
 	const light4 = 57;
 	const light5 = 71;
 	const light6 = 85;
-	const light7 = 99;
+	const light7 = 94; // was 99
 
 	// Saturation presets
 
 	// TODO
 	// Let user choose presets? implement later
 
-	const sat_standard = [sat1, sat3, sat5, sat7, sat5, sat3, sat1];
+	const sat_standard = [sat1, sat3, sat5, sat6, sat5, sat3, sat1];
 	
 	/* maybe don't need
 	const sat_dull =     [sat1, sat1, sat2, sat3, sat2, sat1, sat1];
@@ -69,7 +73,7 @@ https://www.w3schools.com/colors/colors_picker.asp
 
 	// Lightness presets
 
-	const light_standard = [light1, light3, light5, light7, light5, light3, light1];
+	const light_standard = [light7, light6, light5, light4, light3, light2, light1];
 
 	// Palette array initialization and conversion functions
 
@@ -261,6 +265,7 @@ let input_light = 0;
 					// create separate function for these array initializations?
 
 					// also function for checking if hsl numbers are too close
+					// consider letting any extra values be greys/neutrals
 				let anum;
 				let bnum;
 				let cnum;
@@ -417,8 +422,8 @@ let input_light = 0;
  		loadColor();
  		//loadSaturation();
  		loadSatRand();
- 		loadLightRand();
- 		//loadLight();
+ 		//loadLightRand();
+ 		loadLight();
  	}
 
 // Microadjustment functions
@@ -501,8 +506,6 @@ function changeStyle(){
 				const para = document.getElementById("para"); 
 
         para.textContent = "hex = " + input_hex + ", hue = " + input_hue + ", sat = " + input_sat + ", light = " + input_light;
-
-
 
     }
 
