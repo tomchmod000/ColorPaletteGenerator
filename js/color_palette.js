@@ -16,6 +16,7 @@ https://www.techonthenet.com/js/continue.php
 https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/color
 https://sebhastian.com/javascript-change-text-on-page/
 https://stackoverflow.com/questions/8739605/getelementbyid-returns-null
+https://web.archive.org/web/20130525061042/www.insanit.net/tag/rgb-to-ryb/
 
 General Reference: 
 
@@ -44,7 +45,7 @@ https://www.w3schools.com/colors/colors_picker.asp
 	const sat4 = 57;
 	const sat5 = 71;
 	const sat6 = 85;
-	const sat7 = 99;
+	const sat7 = 94; // was 99
 
 	// Lightness constants
 
@@ -116,17 +117,65 @@ https://www.w3schools.com/colors/colors_picker.asp
 
 let input_hex = "#66ffcc";
 
+// Opacity
+let opacity = 0;
+
+// HSL
 let input_hue = 0;
 let input_sat = 0;
 let input_light = 0;
 
-// Color conversions from HSL to HSLA, RGB, RGBA, and Hex
+// RGB
+let red = 0;
+let green = 0;
+let blue = 0;
 
-	// HSL to HSLA
+// Color conversions from HSL to HSLA, RGB, RGBA, and Hex
+// Conversion process for usable color:
+// input hex -> hsl -> rgb -> ryb -> rotation conversion -> rgb -> hsl (for display)
+// -> hex, (for info cards)
+
 
 	// HSL to RGB
+	function HSLToRGB(h,s,l) {
+  // Must be fractions of 1
+  s /= 100;
+  l /= 100;
 
-	// HSL to RGBA
+  let c = (1 - Math.abs(2 * l - 1)) * s,
+      x = c * (1 - Math.abs((h / 60) % 2 - 1)),
+      m = l - c/2,
+      r = 0,
+      g = 0,
+      b = 0;
+
+      if (0 <= h && h < 60) {
+    r = c; g = x; b = 0;  
+  } else if (60 <= h && h < 120) {
+    r = x; g = c; b = 0;
+  } else if (120 <= h && h < 180) {
+    r = 0; g = c; b = x;
+  } else if (180 <= h && h < 240) {
+    r = 0; g = x; b = c;
+  } else if (240 <= h && h < 300) {
+    r = x; g = 0; b = c;
+  } else if (300 <= h && h < 360) {
+    r = c; g = 0; b = x;
+  }
+  r = Math.round((r + m) * 255);
+  g = Math.round((g + m) * 255);
+  b = Math.round((b + m) * 255);
+
+  red = r;
+  green = g;
+  blue = b;
+
+  return "rgb(" + r + "," + g + "," + b + ")";
+	}
+
+	// HSLA to RGBA
+
+
 
 	// HSL to Hex
 
@@ -196,6 +245,10 @@ let input_light = 0;
 		// Analogus
 
 		// Complementary
+		let comp_hue = 0;
+		function complementary(h) {
+			comp_hue = Math.abs((h + 180) - 360);
+		}
 
 		// Split Complementary
 
@@ -514,3 +567,137 @@ function changeStyle(){
     // call respective population functions
     // populate array
     // display colors on html site
+
+    /* ryb/rgb conversion code
+
+    # Author: Arah J. Leonard
+# Copyright 01AUG09
+# Distributed under the LGPL - http://www.gnu.org/copyleft/lesser.html
+# ALSO distributed under the The MIT License from the Open Source Initiative (OSI) - http://www.opensource.org/licenses/mit-license.php
+# You may use EITHER of these licenses to work with / distribute this source code.
+# Enjoy!
+
+# Convert a red-green-blue system to a red-yellow-blue system.
+*/
+function rgb2ryb(r, g, b){
+	//t = type(r)
+
+	// Remove the whiteness from the color.
+	let w = parseFloat(Math.min(r, g, b));
+	r = parseFloat(r) - w;
+	g = parseFloat(g) - w;
+	b = parseFloat(b) - w;
+
+	let mg = Math.max(r, g, b);
+
+	// Get the yellow out of the red+green.
+	let y = Math.min(r, g);
+	r -= y;
+	g -= y;
+
+	// If this unfortunate conversion combines blue and green, 
+	//then cut each in half to preserve the value's maximum range.
+	if (b > 0 && g > 0){
+		b /= 2.0;
+		g /= 2.0;
+}
+	// Redistribute the remaining green.
+	y += g;
+	b += g;
+
+	// Normalize to values.
+	my = Math.max(r, y, b);
+	if (my > 0) {
+		n = mg / my;
+		r *= n;
+		y *= n;
+		b *= n;
+	}
+	// Add the white back in.
+	r += w;
+	y += w;
+	b += w;
+
+	// And return back the ryb typed accordingly.
+	return (r + " " + y + " " + b);
+}
+// Convert a red-yellow-blue system to a red-green-blue system.
+
+function ryb2rgb(r, y, b){
+	//t = type(r)
+
+	// Remove the whiteness from the color.
+	let w = parseFloat(Math.min(r, y, b));
+	r = parseFloat(r) - w;
+	y = parseFloat(y) - w;
+	b = parseFloat(b) - w;
+
+	let my = Math.max(r, y, b);
+
+	// Get the green out of the yellow and blue
+	g = Math.min(y, b);
+	y -= g;
+	b -= g;
+
+	if (b > 0 && g > 0){
+
+		b *= 2.0;
+		g *= 2.0;
+}
+	// Redistribute the remaining yellow.
+	r += y;
+	g += y;
+
+	// Normalize to values.
+	let mg = Math.max(r, g, b)
+	if (mg > 0) {
+		n = my / mg;
+		r *= n;
+		g *= n;
+		b *= n;
+}
+	// Add the white back in.
+	r += w;
+	g += w;
+	b += w;
+
+  // And return back the ryb typed accordingly.
+
+	return (r + " " + g + " " + b);
+}
+
+// Return the complementary color values for a given color.  You must also give it the upper limit of the color values, typically 255 for GUIs, 1.0 for OpenGL.
+function complimentary(r, g, b, limit=255){
+	return ((limit - r) + " " + (limit - g) + " " + (limit - b));
+}
+function triad(r, g, b, limit=255){
+	return (b + " " + r + " " + g + " , " + g + " " + b + " " + r);
+}
+/*
+# Debugging test code.  Not intended to be used as an application.
+if __name__=="__main__":
+	red = (255, 0, 0)
+	green = (0, 255, 0)
+	blue = (0, 0, 255)
+	cyan = (0, 255, 255)
+	magenta = (255, 0, 255)
+	yellow = (255, 255, 0)
+	black = (0, 0, 0)
+	white = (255, 255, 255)
+	orange = (255, 128, 0)
+	darkgreen = (0, 128, 0)
+	tests = [red, green, blue, cyan, magenta, yellow, black, white, orange, darkgreen, (255, 128, 64), (255, 64, 128), (64, 255, 128), (128, 255, 64), (64, 128, 255), (128, 64, 255)]
+	for test in tests:
+		ryb = rgb2ryb(test[0], test[1], test[2])
+		rgb = ryb2rgb(ryb[0], ryb[1], ryb[2])
+		cryb = complimentary(ryb[0], ryb[1], ryb[2])
+		crgb = ryb2rgb(cryb[0], cryb[1], cryb[2])
+		print test, "rgb2ryb", ryb, "ryb2rgb", rgb
+		print "complimentary rgb", complimentary(rgb[0], rgb[1], rgb[2])
+		print "complimentary ryb", cryb, "to rgb", crgb
+		print
+
+
+
+
+    */
