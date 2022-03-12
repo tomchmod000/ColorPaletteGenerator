@@ -17,6 +17,12 @@ https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/color
 https://sebhastian.com/javascript-change-text-on-page/
 https://stackoverflow.com/questions/8739605/getelementbyid-returns-null
 https://web.archive.org/web/20130525061042/www.insanit.net/tag/rgb-to-ryb/
+https://stackoverflow.com/questions/8507885/shift-hue-of-an-rgb-color
+https://bahamas10.github.io/ryb/about.html
+https://stackoverflow.com/questions/37055755/computing-complementary-triadic-tetradic-and-analagous-colors
+https://stackoverflow.com/questions/14095849/calculating-the-analogous-color-with-python/14116553#14116553
+https://stackoverflow.com/questions/56652365/algorithm-to-generate-ryb-color-wheel
+https://stackoverflow.com/questions/25706700/hsl-colors-to-pigmentation
 
 General Reference: 
 
@@ -667,11 +673,15 @@ function ryb2rgb(r, y, b){
 }
 
 // Return the complementary color values for a given color.  You must also give it the upper limit of the color values, typically 255 for GUIs, 1.0 for OpenGL.
-function complimentary(r, g, b, limit=255){
+function complimentary(r, g, b, limit=255) {
 	return ((limit - r) + " " + (limit - g) + " " + (limit - b));
 }
-function triad(r, g, b, limit=255){
+function triad(r, g, b, limit=255) {
 	return (b + " " + r + " " + g + " , " + g + " " + b + " " + r);
+}
+
+function tetradic(r, g, b, limit=255) {
+
 }
 /*
 # Debugging test code.  Not intended to be used as an application.
@@ -696,8 +706,26 @@ if __name__=="__main__":
 		print "complimentary rgb", complimentary(rgb[0], rgb[1], rgb[2])
 		print "complimentary ryb", cryb, "to rgb", crgb
 		print
-
-
-
-
     */
+// figure this out and add comments
+const deg = Math.PI / 180;
+
+function rotateRGBHue(r, g, b, hue) {
+  const cosA = Math.cos(hue * deg);
+  const sinA = Math.sin(hue * deg);
+  const neo = [
+    cosA + (1 - cosA) / 3,
+    (1 - cosA) / 3 - Math.sqrt(1 / 3) * sinA,
+    (1 - cosA) / 3 + Math.sqrt(1 / 3) * sinA,
+  ];
+  const result = [
+    r * neo[0] + g * neo[1] + b * neo[2],
+    r * neo[2] + g * neo[0] + b * neo[1],
+    r * neo[1] + g * neo[2] + b * neo[0],
+  ];
+  return result.map(x => uint8(x));
+}
+
+function uint8(value) {
+  return 0 > value ? 0 : (255 < value ? 255 : Math.round(value));
+}
