@@ -397,8 +397,10 @@ let hueconversionarray = [inputred, inputyellow, inputblue];
 				//a = event.target.value;
 				// need array for input colors
 				let a = input_hsl[0];
-				let b = Math.floor(Math.random() * 361);
+				let b = rgb2hslresult[0];
 				//let b = compliment;
+				//let c = 0;
+				//let d = 0;
 				let c = Math.floor(Math.random() * 361);
 				let d = Math.floor(Math.random() * 361);
 
@@ -420,8 +422,8 @@ let hueconversionarray = [inputred, inputyellow, inputblue];
 
 				anum = Math.floor(Math.random() * 100);
 				bnum = Math.floor(Math.random() * 100);
-				cnum = Math.floor(Math.random() * 100);
-				dnum = Math.floor(Math.random() * 100);
+				cnum = 0;//Math.floor(Math.random() * 100);
+				dnum = 0;//Math.floor(Math.random() * 100);
 				// when comparing it will be ranarray[0] >= ranarray[1] etc 
 				// using for loop 
 				// look into Math.max
@@ -566,6 +568,7 @@ let hueconversionarray = [inputred, inputyellow, inputblue];
  	// Test
  	function Load() {
  		hexToHSL(input_hex);
+ 		complimentary();
  		loadColor();
  		//loadSaturation();
  		loadSatRand();
