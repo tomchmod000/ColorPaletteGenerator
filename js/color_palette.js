@@ -239,6 +239,53 @@ let blue = 0;
   return "hsl(" + h + "," + s + "%," + l + "%)";
 }
 
+// RGB to HSL
+function RGBToHSL(r,g,b) {
+  // Make r, g, and b fractions of 1
+  r /= 255;
+  g /= 255;
+  b /= 255;
+
+  // Find greatest and smallest channel values
+  let cmin = Math.min(r,g,b),
+      cmax = Math.max(r,g,b),
+      delta = cmax - cmin,
+      h = 0,
+      s = 0,
+      l = 0;
+
+      // Calculate hue
+  // No difference
+  if (delta == 0)
+    h = 0;
+  // Red is max
+  else if (cmax == r)
+    h = ((g - b) / delta) % 6;
+  // Green is max
+  else if (cmax == g)
+    h = (b - r) / delta + 2;
+  // Blue is max
+  else
+    h = (r - g) / delta + 4;
+
+  h = Math.round(h * 60);
+    
+  // Make negative hues positive behind 360°
+  if (h < 0)
+      h += 360;
+    // Calculate lightness
+  l = (cmax + cmin) / 2;
+
+  // Calculate saturation
+  s = delta == 0 ? 0 : delta / (1 - Math.abs(2 * l - 1));
+    
+  // Multiply l and s by 100
+  s = +(s * 100).toFixed(1);
+  l = +(l * 100).toFixed(1);
+
+  //compliment = h;
+  return "hsl(" + h + "," + s + "%," + l + "%)";
+ }
 
 // Color calculation functions
 // Take hsl hue value as input, calculate corresponding colors
@@ -251,10 +298,12 @@ let blue = 0;
 		// Analogus
 
 		// Complementary
-
-		function complimentary(r, g, b, limit=255) {
-	return ((limit - r) + " " + (limit - g) + " " + (limit - b));
-}
+// 		let compliment = 0;
+// 		let compcolor = [];
+// 		function complimentary(r, g, b, limit=255) {
+// 			compcolor = [limit-r, limit-g, limit-b];
+// 	return ((limit - r) + " " + (limit - g) + " " + (limit - b));
+// }
 
 		// let comp_hue = 0;
 		// function complementary(h) {
@@ -320,8 +369,10 @@ let blue = 0;
 
 				//a = Math.floor(Math.random() * 361);
 				//a = event.target.value;
+				// need array for input colors
 				let a = input_hue;
 				let b = Math.floor(Math.random() * 361);
+				//let b = compliment;
 				let c = Math.floor(Math.random() * 361);
 				let d = Math.floor(Math.random() * 361);
 
