@@ -127,9 +127,7 @@ let input_hex = "#66ffcc";
 let opacity = 0;
 
 // HSL
-let input_hue = 0;
-let input_sat = 0;
-let input_light = 0;
+const input_hsl = [0, 0, 0];
 
 // RGB
 let red = 0;
@@ -143,6 +141,8 @@ let blue = 0;
 
 
 	// HSL to RGB
+	const hsl2rgbresult = [0, 0, 0];
+
 	function HSLToRGB(h,s,l) {
   // Must be fractions of 1
   s /= 100;
@@ -172,9 +172,9 @@ let blue = 0;
   g = Math.round((g + m) * 255);
   b = Math.round((b + m) * 255);
 
-  red = r;
-  green = g;
-  blue = b;
+hsl2rgbresult[0] = r;
+hsl2rgbresult[1] = g;
+hsl2rgbresult[2] = b;
 
   return "rgb(" + r + "," + g + "," + b + ")";
 	}
@@ -231,15 +231,16 @@ let blue = 0;
   l = +(l * 100).toFixed(1);
   
   // set conversion into input
-  input_hue = h;
-  input_sat = s;
-  input_light = l;
-  
+  input_hsl[0] = h;
+  input_hsl[1] = s;
+  input_hsl[2] = l;
 
   return "hsl(" + h + "," + s + "%," + l + "%)";
 }
 
 // RGB to HSL
+const rgb2hslresult = [0,0,0];
+
 function RGBToHSL(r,g,b) {
   // Make r, g, and b fractions of 1
   r /= 255;
@@ -283,6 +284,10 @@ function RGBToHSL(r,g,b) {
   s = +(s * 100).toFixed(1);
   l = +(l * 100).toFixed(1);
 
+	rgb2hslresult[0] = h;
+	rgb2hslresult[1] = s;
+	rgb2hslresult[2] = l;
+
   //compliment = h;
   return "hsl(" + h + "," + s + "%," + l + "%)";
  }
@@ -291,11 +296,21 @@ function RGBToHSL(r,g,b) {
 // Take hsl hue value as input, calculate corresponding colors
 // Stick them into new array for poplating functions to use
 
+// put these in array, load rgb to ryb conversion into here
+let inputred = 0;
+let inputyellow = 0;
+let inputblue = 0;
+let hueconversionarray = [inputred, inputyellow, inputblue];
 		// Greyscale
+		// no rotation, just populate
 
 		// Monochromatic
 
+		//no rotation, just populate
+
 		// Analogus
+
+		// rotate to the sides + / - 30 degrees -> 30, 330
 
 		// Complementary
 // 		let compliment = 0;
@@ -304,20 +319,31 @@ function RGBToHSL(r,g,b) {
 // 			compcolor = [limit-r, limit-g, limit-b];
 // 	return ((limit - r) + " " + (limit - g) + " " + (limit - b));
 // }
-
+// rotate 180 degrees
+// rotatergbhue();
 		// let comp_hue = 0;
 		// function complementary(h) {
 		// 	comp_hue = Math.abs((h + 180) - 360);
 		// }
 
 		// Split Complementary
+		// 180 degrees then another + / - 30 or 60
+		// probably 30? check on wheel later
 
+		function splitcomp(array){
+			rotateRGBHue(array[0], array[1], array[2], 150);
+			rotateRGBHue(array[0], array[1], array[2], 210);
+}
 		// Triadic
-		function triad(r, g, b, limit=255) {
+
+
+		function triadic(r, g, b, limit=255) {
+			// rotate 120 degrees, 240
 	return (b + " " + r + " " + g + " , " + g + " " + b + " " + r);
 }
 
 		// Tetradic
+		// rotate 90 degrees
 		function tetradic(r, g, b, limit=255) {
 
 }
@@ -370,7 +396,7 @@ function RGBToHSL(r,g,b) {
 				//a = Math.floor(Math.random() * 361);
 				//a = event.target.value;
 				// need array for input colors
-				let a = input_hue;
+				let a = input_hsl[0];
 				let b = Math.floor(Math.random() * 361);
 				//let b = compliment;
 				let c = Math.floor(Math.random() * 361);
@@ -546,6 +572,16 @@ function RGBToHSL(r,g,b) {
  		//loadLightRand();
  		loadLight();
  	}
+ 	// TEST
+ 	// takes selected input color, returns complimentary in hsl format
+ 	function complimentary(){
+ 		HSLToRGB(input_hsl[0], input_hsl[1], input_hsl[2]);
+ 		rgb2ryb(hsl2rgbresult[0], hsl2rgbresult[1], hsl2rgbresult[2]);
+ 		rotateRGBHue(rgb2rybresult[0], rgb2rybresult[1], rgb2rybresult[2], 180);
+ 		ryb2rgb(rotationresult[0], rotationresult[1], rotationresult[2]);
+ 		RGBToHSL(ryb2rgbresult[0], ryb2rgbresult[1], ryb2rgbresult[2]);
+ 		console.log(rgb2hslresult);
+ 	}
 
 // Microadjustment functions
 // Adjust array values so they fall within a certain range
@@ -621,7 +657,7 @@ function changeStyle(){
 				const color6 = document.getElementById("color6");
 				const color7 = document.getElementById("color7");
 
-        inputColor.textContent = "Input color: " + "HEX = " + input_hex + ", HSL = (" + input_hue + ", " + input_sat + ", " + input_light + ")";
+        inputColor.textContent = "Input color: " + "HEX = " + input_hex + ", HSL = (" + input_hsl[0] + ", " + input_hsl[1] + ", " + input_hsl[2] + ")";
 
         color1.textContent = "HSL = (" + palette[0][0] + ", " + palette[0][1] + ", " + palette[0][2] + ")";
         color2.textContent = "HSL = (" + palette[1][0] + ", " + palette[1][1] + ", " + palette[1][2] + ")";
@@ -639,6 +675,8 @@ function changeStyle(){
     // display colors on html site
 
 // Convert RGB to RYB
+const rgb2rybresult = [0, 0, 0];
+
 function rgb2ryb(r, g, b){
 
 	// Remove the whiteness from the color.
@@ -678,11 +716,17 @@ function rgb2ryb(r, g, b){
 	y += w;
 	b += w;
 
+	rgb2rybresult[0] = r;
+	rgb2rybresult[1] = y;
+	rgb2rybresult[2] = b;
+
 	// And return back the ryb typed accordingly.
 	return (r + " " + y + " " + b);
 }
 
 // Convert RYB to RGB
+const ryb2rgbresult =[0, 0, 0];
+
 function ryb2rgb(r, y, b){
 	//t = type(r)
 
@@ -721,18 +765,26 @@ function ryb2rgb(r, y, b){
 	g += w;
 	b += w;
 
+	ryb2rgbresult[0] = r;
+	ryb2rgbresult[1] = g;
+	ryb2rgbresult[2] = b;
+
   // And return back the ryb typed accordingly.
 
 	return (r + " " + g + " " + b);
 }
 
+
 // cube rotation
 // figure this out and add comments
-const deg = Math.PI / 180;
 
-function rotateRGBHue(r, g, b, hue) {
-  const cosA = Math.cos(hue * deg);
-  const sinA = Math.sin(hue * deg);
+// get degrees from radians
+const deg = Math.PI / 180;
+const rotationresult = [0, 0, 0];
+
+function rotateRGBHue(r, g, b, rotationangle) {
+  const cosA = Math.cos(rotationangle * deg);
+  const sinA = Math.sin(rotationangle * deg);
   const neo = [
     cosA + (1 - cosA) / 3,
     (1 - cosA) / 3 - Math.sqrt(1 / 3) * sinA,
@@ -743,7 +795,16 @@ function rotateRGBHue(r, g, b, hue) {
     r * neo[2] + g * neo[0] + b * neo[1],
     r * neo[1] + g * neo[2] + b * neo[0],
   ];
+
+  const rotation = result.map(x => uint8(x));
+  // might not need these, might be able to use returned array
+  rotationresult[0] = rotation[0];
+  rotationresult[1] = rotation[1];
+  rotationresult[2] = rotation[2];
+
   return result.map(x => uint8(x));
+
+  // returns 
 }
 
 function uint8(value) {
