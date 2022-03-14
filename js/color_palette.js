@@ -156,18 +156,18 @@ let blue = 0;
       b = 0;
 
       if (0 <= h && h < 60) {
-    r = c; g = x; b = 0;  
-  } else if (60 <= h && h < 120) {
-    r = x; g = c; b = 0;
-  } else if (120 <= h && h < 180) {
-    r = 0; g = c; b = x;
-  } else if (180 <= h && h < 240) {
-    r = 0; g = x; b = c;
-  } else if (240 <= h && h < 300) {
-    r = x; g = 0; b = c;
-  } else if (300 <= h && h < 360) {
-    r = c; g = 0; b = x;
-  }
+    		r = c; g = x; b = 0;  
+  		} else if (60 <= h && h < 120) {
+    		r = x; g = c; b = 0;
+  		} else if (120 <= h && h < 180) {
+    		r = 0; g = c; b = x;
+  		} else if (180 <= h && h < 240) {
+		    r = 0; g = x; b = c;
+  		} else if (240 <= h && h < 300) {
+		    r = x; g = 0; b = c;
+ 			 } else if (300 <= h && h < 360) {
+ 		   r = c; g = 0; b = x;
+ 		 }
   r = Math.round((r + m) * 255);
   g = Math.round((g + m) * 255);
   b = Math.round((b + m) * 255);
@@ -251,16 +251,27 @@ let blue = 0;
 		// Analogus
 
 		// Complementary
-		let comp_hue = 0;
-		function complementary(h) {
-			comp_hue = Math.abs((h + 180) - 360);
-		}
+
+		function complimentary(r, g, b, limit=255) {
+	return ((limit - r) + " " + (limit - g) + " " + (limit - b));
+}
+
+		// let comp_hue = 0;
+		// function complementary(h) {
+		// 	comp_hue = Math.abs((h + 180) - 360);
+		// }
 
 		// Split Complementary
 
 		// Triadic
+		function triad(r, g, b, limit=255) {
+	return (b + " " + r + " " + g + " , " + g + " " + b + " " + r);
+}
 
 		// Tetradic
+		function tetradic(r, g, b, limit=255) {
+
+}
 
 
 // Color array populating functions
@@ -514,22 +525,11 @@ window.addEventListener("load", startup, false);
 function startup() {
   colorWell = document.querySelector("#colorWell");
   colorWell.value = defaultColor;
-  colorWell.addEventListener("input", updateFirst, false);
   colorWell.addEventListener("change", updateAll, false);
   colorWell.select();
 }
-function updateFirst(event) {
-  var p = document.querySelector("p");
-
-  if (p) {
-    p.style.color = event.target.value;
-  }
-}
 function updateAll(event) {
-  document.querySelectorAll("p").forEach(function(p) {
-    p.style.color = event.target.value;
-    input_hex = event.target.value;
-  });
+	input_hex = event.target.value;
  }
 // use above updateall to change input color that gets fed into functions
 
@@ -560,12 +560,25 @@ function changeStyle(){
 
         var element = document.getElementById("myDiv7");
         element.style.backgroundColor = HSLpalette[6];
+ // change these to loops later once everything is working
+				const inputColor = document.getElementById("input_color"); 
+				const color1 = document.getElementById("color1");
+				const color2 = document.getElementById("color2");
+				const color3 = document.getElementById("color3");
+				const color4 = document.getElementById("color4");
+				const color5 = document.getElementById("color5");
+				const color6 = document.getElementById("color6");
+				const color7 = document.getElementById("color7");
 
+        inputColor.textContent = "Input color: " + "HEX = " + input_hex + ", HSL = (" + input_hue + ", " + input_sat + ", " + input_light + ")";
 
-				const para = document.getElementById("para"); 
-
-        para.textContent = "hex = " + input_hex + ", hue = " + input_hue + ", sat = " + input_sat + ", light = " + input_light;
-
+        color1.textContent = "HSL = (" + palette[0][0] + ", " + palette[0][1] + ", " + palette[0][2] + ")";
+        color2.textContent = "HSL = (" + palette[1][0] + ", " + palette[1][1] + ", " + palette[1][2] + ")";
+        color3.textContent = "HSL = (" + palette[2][0] + ", " + palette[2][1] + ", " + palette[2][2] + ")";
+        color4.textContent = "HSL = (" + palette[3][0] + ", " + palette[3][1] + ", " + palette[3][2] + ")";
+        color5.textContent = "HSL = (" + palette[4][0] + ", " + palette[4][1] + ", " + palette[4][2] + ")";
+        color6.textContent = "HSL = (" + palette[5][0] + ", " + palette[5][1] + ", " + palette[5][2] + ")";
+        color7.textContent = "HSL = (" + palette[6][0] + ", " + palette[6][1] + ", " + palette[6][2] + ")";
     }
 
     //when "generate" button pressed -> take user input color
@@ -574,19 +587,8 @@ function changeStyle(){
     // populate array
     // display colors on html site
 
-    /* ryb/rgb conversion code
-
-    # Author: Arah J. Leonard
-# Copyright 01AUG09
-# Distributed under the LGPL - http://www.gnu.org/copyleft/lesser.html
-# ALSO distributed under the The MIT License from the Open Source Initiative (OSI) - http://www.opensource.org/licenses/mit-license.php
-# You may use EITHER of these licenses to work with / distribute this source code.
-# Enjoy!
-
-# Convert a red-green-blue system to a red-yellow-blue system.
-*/
+// Convert RGB to RYB
 function rgb2ryb(r, g, b){
-	//t = type(r)
 
 	// Remove the whiteness from the color.
 	let w = parseFloat(Math.min(r, g, b));
@@ -606,7 +608,8 @@ function rgb2ryb(r, g, b){
 	if (b > 0 && g > 0){
 		b /= 2.0;
 		g /= 2.0;
-}
+	}
+
 	// Redistribute the remaining green.
 	y += g;
 	b += g;
@@ -627,8 +630,8 @@ function rgb2ryb(r, g, b){
 	// And return back the ryb typed accordingly.
 	return (r + " " + y + " " + b);
 }
-// Convert a red-yellow-blue system to a red-green-blue system.
 
+// Convert RYB to RGB
 function ryb2rgb(r, y, b){
 	//t = type(r)
 
@@ -672,41 +675,7 @@ function ryb2rgb(r, y, b){
 	return (r + " " + g + " " + b);
 }
 
-// Return the complementary color values for a given color.  You must also give it the upper limit of the color values, typically 255 for GUIs, 1.0 for OpenGL.
-function complimentary(r, g, b, limit=255) {
-	return ((limit - r) + " " + (limit - g) + " " + (limit - b));
-}
-function triad(r, g, b, limit=255) {
-	return (b + " " + r + " " + g + " , " + g + " " + b + " " + r);
-}
-
-function tetradic(r, g, b, limit=255) {
-
-}
-/*
-# Debugging test code.  Not intended to be used as an application.
-if __name__=="__main__":
-	red = (255, 0, 0)
-	green = (0, 255, 0)
-	blue = (0, 0, 255)
-	cyan = (0, 255, 255)
-	magenta = (255, 0, 255)
-	yellow = (255, 255, 0)
-	black = (0, 0, 0)
-	white = (255, 255, 255)
-	orange = (255, 128, 0)
-	darkgreen = (0, 128, 0)
-	tests = [red, green, blue, cyan, magenta, yellow, black, white, orange, darkgreen, (255, 128, 64), (255, 64, 128), (64, 255, 128), (128, 255, 64), (64, 128, 255), (128, 64, 255)]
-	for test in tests:
-		ryb = rgb2ryb(test[0], test[1], test[2])
-		rgb = ryb2rgb(ryb[0], ryb[1], ryb[2])
-		cryb = complimentary(ryb[0], ryb[1], ryb[2])
-		crgb = ryb2rgb(cryb[0], cryb[1], cryb[2])
-		print test, "rgb2ryb", ryb, "ryb2rgb", rgb
-		print "complimentary rgb", complimentary(rgb[0], rgb[1], rgb[2])
-		print "complimentary ryb", cryb, "to rgb", crgb
-		print
-    */
+// cube rotation
 // figure this out and add comments
 const deg = Math.PI / 180;
 
