@@ -1,0 +1,2 @@
+# ColorPaletteGenerator
+
