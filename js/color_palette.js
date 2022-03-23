@@ -394,7 +394,7 @@ let hueconversionarray = [inputred, inputyellow, inputblue];
 				//let b = compliment;
 				//let c = 0;
 				//let d = 0;
-				let c = neededColors[2];
+				let c = (neededColors[2] == undefined) ? Math.floor(Math.random() * 361) : neededColors[2];
 				//let c = Math.floor(Math.random() * 361);
 				let d = Math.floor(Math.random() * 361);
 
@@ -416,7 +416,7 @@ let hueconversionarray = [inputred, inputyellow, inputblue];
 
 				anum = Math.floor(Math.random() * 100);
 				bnum = Math.floor(Math.random() * 100);
-				cnum = Math.floor(Math.random() * 100);
+				cnum = (neededColors[2] == undefined) ? 0 : Math.floor(Math.random() * 100) ;
 				dnum = 0;//Math.floor(Math.random() * 100);
 				// when comparing it will be ranarray[0] >= ranarray[1] etc 
 				// using for loop 
@@ -832,6 +832,6 @@ function rotateHue(r, x, b, rotationangle) {
   // returns stuff in rotationresult
 }
 
-function uint8(value) {
+function uint8(value) { // limits value
   return 0 > value ? 0 : (255 < value ? 255 : Math.round(value));
 }
