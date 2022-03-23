@@ -43,9 +43,38 @@
 		<label for="colorWell">Color:</label>
 		<input type="color" value="#ff0000" id="colorWell">
 
+<h3>Color Scheme</h3>
+<label>
+	<input type="radio" name = "check" value="Triadic" onclick="analyzeColor(this.value);"> Triadic 
+</label>
+<label>
+	<input type="radio" name = "check" value="Complementary" onclick="analyzeColor(this.value);"> Complementary 
+</label>
+<label>
+	<input type="radio" name = "check" value="Split Complementary" onclick="analyzeColor(this.value);"> Split Complementary 
+</label>
+<label>
+	<input type="radio" name = "check" value="Monochrome" onclick="analyzeColor(this.value);"> Monochrome 
+</label>
+<label>
+	<input type="radio" name = "check" value="Analogus" onclick="analyzeColor(this.value);"> Analogus 
+</label>
+<label>
+	<input type="radio" name = "check" value="Square" onclick="analyzeColor(this.value);"> Square 
+</label>
+<label>
+	<input type="radio" name = "check" value="Rectangle" onclick="analyzeColor(this.value);"> Rectangle
+</label>
+<label>
+	<input id ="none" type="radio" name = "check" value="None" onclick="analyzeColor(this.value);"> None
+</label>
+
 		<p>
 		input color will be loaded into palette generator once "load palette" button is pressed.
-		can check by looking at "input_hex" value and "input_hue" value, input_hue gets loaded into the loadcolor() function
+		<br>can check by looking at "input_hex" value and "input_hue" value, input_hue gets loaded into the loadcolor() function
+		<br>Currently you need to slect a color before clicking input, the generator defaults to random monochrome.
+		<br>you can switch between color schemes after selecting a color, just press load palette each time. 
+		<br>not inputting anything but changing the color scheme will result in random of that type.
 		</p>
 <!-- 
 		<p>Watch the paragraph colors change when you adjust the color picker.

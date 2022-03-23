@@ -499,14 +499,14 @@ let hueconversionarray = [inputred, inputyellow, inputblue];
 
 				// for final loop through neededcolors array and assign values to a,b,c etc
 				// initialize them all as random neutrals as default and then replace afterwards based on need
-				let a = neededColors[0];// == undefined) ? Math.floor(Math.random() * 361) : neededColors[0];
+				let a = (neededColors[0] == undefined) ? Math.floor(Math.random() * 361) : neededColors[0];
 				//let a = input_hsl[0];
 				//let b = rgb2hslresult[0];
-				let b = neededColors[1];// == undefined) ? Math.floor(Math.random() * 361) : neededColors[1];
+				let b = (neededColors[1] == undefined) ? Math.floor(Math.random() * 361) : neededColors[1];
 				//let b = compliment;
 				//let c = 0;
 				//let d = 0;
-				let c = neededColors[2];// == undefined) ? Math.floor(Math.random() * 361) : neededColors[2];
+				let c = (neededColors[2] == undefined) ? Math.floor(Math.random() * 361) : neededColors[2];
 				//let c = Math.floor(Math.random() * 361);
 				let d = (neededColors[3] == undefined) ? Math.floor(Math.random() * 361) : neededColors[3];
 
@@ -670,6 +670,36 @@ let hueconversionarray = [inputred, inputyellow, inputblue];
 	   Not all lightness values need to be used
 	   2. Apply preset lightness values to the global palette array
 	*/
+	var colorscheme = 0;
+
+	function analyzeColor(myColor) {
+	switch (myColor)
+	{
+	case "Triadic":
+		colorscheme = triad;
+		break
+	case "Complementary":
+		colorscheme = comp;
+		break
+	case "Monochrome":
+		colorscheme = mono;
+		break
+	case "Analogus":
+		colorscheme = anal;
+		break
+	case "Square":
+		colorscheme = square;
+		break
+	case "Rectangle":
+		colorscheme = rectangle;
+		break
+	case "Split Complementary":
+		colorscheme = splitcomp;
+		break
+	default:
+		colorscheme = 0;
+	}
+}
 
  	// Test
  	function Load() {
@@ -679,14 +709,15 @@ let hueconversionarray = [inputred, inputyellow, inputblue];
 
 
  		//mono(input_hsl);
- 		triad(input_hsl);
+ 		//triad(input_hsl);
  		//anal(input_hsl);
  		//comp(input_hsl);
  		//square(input_hsl);
  		//rectangle(input_hsl);
  		//splitcomp(input_hsl);
-
-
+ 		if (colorscheme != 0){
+ 			colorscheme(input_hsl);
+ 		}
 
  		//complimentary();
  		loadColor();
@@ -750,6 +781,8 @@ let hueconversionarray = [inputred, inputyellow, inputblue];
 // TESTING
 window.onload = function() {
   initializePalette();
+  radiobtn = document.getElementById("none");
+  radiobtn.checked = true;
 };
 
 var colorWell;
