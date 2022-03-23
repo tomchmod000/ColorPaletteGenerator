@@ -305,31 +305,25 @@ let inputred = 0;
 let inputyellow = 0;
 let inputblue = 0;
 let hueconversionarray = [inputred, inputyellow, inputblue];
+
+	// input rgb2ryb result as the array parameter
+
 		// Greyscale
+
 		// no rotation, just populate
 
 		// Monochromatic
 
 		//no rotation, just populate
 
-		// Analogus
-
+		// Analogus 
 		// rotate to the sides + / - 30 degrees -> 30, 330
+		function anal(array){ // find a better function name for this ASAP
+			rotateHue(array[0], array[1], array[2], 30);
+			rotateHue(array[0], array[1], array[2], 330);
+		}
 
 		// Complementary
-
-// 		let compliment = 0;
-// 		let compcolor = [];
-// 		function complimentary(r, g, b, limit=255) {
-// 			compcolor = [limit-r, limit-g, limit-b];
-// 	return ((limit - r) + " " + (limit - g) + " " + (limit - b));
-// }
-// rotate 180 degrees
-// rotatergbhue();
-		// let comp_hue = 0;
-		// function complementary(h) {
-		// 	comp_hue = Math.abs((h + 180) - 360);
-		// }
 
 		function comp(array) { // take results from rotationresult and input into neededcolors
 			rotateHue(array[0], array[1], array[2], 180);
@@ -337,8 +331,7 @@ let hueconversionarray = [inputred, inputyellow, inputblue];
 		}
 
 		// Split Complementary
-		// 180 degrees then another + / - 30 or 60
-		// probably 30? check on wheel later
+		// 180 degrees then another + / - 30
 
 		function splitcomp(array){
 			rotateHue(array[0], array[1], array[2], 150);
@@ -346,20 +339,18 @@ let hueconversionarray = [inputred, inputyellow, inputblue];
 		}
 		// Triadic
 
-		function triad(r, g, b, limit=255) {
+		function triad(array) {
 			rotateHue(array[0], array[1], array[2], 120);
 			rotateHue(array[0], array[1], array[2], 240);
-			// rotate 120 degrees, 240
-	//return (b + " " + r + " " + g + " , " + g + " " + b + " " + r);
-}
+		}
 
 		// Tetradic
 		// rotate 90 degrees
-		function tetrad(r, g, b, limit=255) {
+		function tetrad(array) { // took out limit = 255 in these functions, check to see if still needed
 			rotateHue(array[0], array[1], array[2], 90);
 			rotateHue(array[0], array[1], array[2], 180);
 			rotateHue(array[0], array[1], array[2], 270);
-}
+		}
 
 
 // Color array populating functions
@@ -378,24 +369,8 @@ let hueconversionarray = [inputred, inputyellow, inputblue];
 	*/
 
 	/* Take input array of known length (based on number of colors)
-
-
-
+			just load in neededcolors array
 	*/
-
-		// Greyscale
-
-		// Monochromatic
-
-		// Analogus
-
-		// Complementary
-
-		// Split Complementary
-
-		// Triadic
-
-		// Tetradic
 
 		// Test
 		function loadColor() {
@@ -410,14 +385,17 @@ let hueconversionarray = [inputred, inputyellow, inputblue];
 				//a = event.target.value;
 				// need array for input colors
 
-				// for final loop through an array that contains the colors needed and assign values to a,b,c etc
+				// for final loop through neededcolors array and assign values to a,b,c etc
 				// initialize them all as random neutrals as default and then replace afterwards based on need
-				let a = input_hsl[0];
-				let b = rgb2hslresult[0];
+				let a = neededColors[0];
+				//let a = input_hsl[0];
+				//let b = rgb2hslresult[0];
+				let b = neededColors[1];
 				//let b = compliment;
 				//let c = 0;
 				//let d = 0;
-				let c = Math.floor(Math.random() * 361);
+				let c = neededColors[2];
+				//let c = Math.floor(Math.random() * 361);
 				let d = Math.floor(Math.random() * 361);
 
 			for (let i = 0; i < 7; i++) {
@@ -438,7 +416,7 @@ let hueconversionarray = [inputred, inputyellow, inputblue];
 
 				anum = Math.floor(Math.random() * 100);
 				bnum = Math.floor(Math.random() * 100);
-				cnum = 0;//Math.floor(Math.random() * 100);
+				cnum = Math.floor(Math.random() * 100);
 				dnum = 0;//Math.floor(Math.random() * 100);
 				// when comparing it will be ranarray[0] >= ranarray[1] etc 
 				// using for loop 
@@ -584,7 +562,8 @@ let hueconversionarray = [inputred, inputyellow, inputblue];
  	// Test
  	function Load() {
  		hexToHSL(input_hex);
- 		complimentary();
+ 		triadic();
+ 		//complimentary();
  		loadColor();
  		//loadSaturation();
  		loadSatRand();
@@ -597,8 +576,35 @@ let hueconversionarray = [inputred, inputyellow, inputblue];
  		HSLToRGB(input_hsl[0], input_hsl[1], input_hsl[2]);
  		rgb2ryb(hsl2rgbresult[0], hsl2rgbresult[1], hsl2rgbresult[2]);
  		rotateHue(rgb2rybresult[0], rgb2rybresult[1], rgb2rybresult[2], 180);
+ 		// replace rotatehue here with comp()
  		ryb2rgb(rotationresult[0], rotationresult[1], rotationresult[2]);
  		RGBToHSL(ryb2rgbresult[0], ryb2rgbresult[1], ryb2rgbresult[2]);
+ 		neededColors[0] = input_hsl[0];
+ 		neededColors[1] = rgb2hslresult[0];
+ 		console.log(rgb2hslresult);
+ 	}
+// TEST
+function triadic(){
+		neededColors[0] = input_hsl[0];
+ 		HSLToRGB(input_hsl[0], input_hsl[1], input_hsl[2]);
+
+ 		rgb2ryb(hsl2rgbresult[0], hsl2rgbresult[1], hsl2rgbresult[2]);
+ 		rotateHue(rgb2rybresult[0], rgb2rybresult[1], rgb2rybresult[2], 120);
+ 		// replace rotatehue here with comp()
+ 		ryb2rgb(rotationresult[0], rotationresult[1], rotationresult[2]);
+ 		RGBToHSL(ryb2rgbresult[0], ryb2rgbresult[1], ryb2rgbresult[2]);
+ 		
+ 		neededColors[1] = rgb2hslresult[0];
+
+ 		console.log(rgb2hslresult);
+
+ 		rotateHue(rgb2rybresult[0], rgb2rybresult[1], rgb2rybresult[2], 240);
+ 		// replace rotatehue here with comp()
+ 		ryb2rgb(rotationresult[0], rotationresult[1], rotationresult[2]);
+ 		RGBToHSL(ryb2rgbresult[0], ryb2rgbresult[1], ryb2rgbresult[2]);
+
+		neededColors[2] = rgb2hslresult[0];
+
  		console.log(rgb2hslresult);
  	}
 
