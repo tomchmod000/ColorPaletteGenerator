@@ -296,6 +296,10 @@ function RGBToHSL(r,g,b) {
 // Take hsl hue value as input, calculate corresponding colors
 // Stick them into new array for poplating functions to use
 
+
+let neededColors = []; // add all calculated colors to this array
+												// reset array at the start of every generator
+
 // put these in array, load rgb to ryb conversion into here
 let inputred = 0;
 let inputyellow = 0;
@@ -313,6 +317,7 @@ let hueconversionarray = [inputred, inputyellow, inputblue];
 		// rotate to the sides + / - 30 degrees -> 30, 330
 
 		// Complementary
+
 // 		let compliment = 0;
 // 		let compcolor = [];
 // 		function complimentary(r, g, b, limit=255) {
@@ -326,26 +331,34 @@ let hueconversionarray = [inputred, inputyellow, inputblue];
 		// 	comp_hue = Math.abs((h + 180) - 360);
 		// }
 
+		function comp(array) { // take results from rotationresult and input into neededcolors
+			rotateHue(array[0], array[1], array[2], 180);
+			// rotationresult[0], rotationresult[1], rotationresult[2]
+		}
+
 		// Split Complementary
 		// 180 degrees then another + / - 30 or 60
 		// probably 30? check on wheel later
 
 		function splitcomp(array){
-			rotateRGBHue(array[0], array[1], array[2], 150);
-			rotateRGBHue(array[0], array[1], array[2], 210);
-}
+			rotateHue(array[0], array[1], array[2], 150);
+			rotateHue(array[0], array[1], array[2], 210);
+		}
 		// Triadic
 
-
-		function triadic(r, g, b, limit=255) {
+		function triad(r, g, b, limit=255) {
+			rotateHue(array[0], array[1], array[2], 120);
+			rotateHue(array[0], array[1], array[2], 240);
 			// rotate 120 degrees, 240
-	return (b + " " + r + " " + g + " , " + g + " " + b + " " + r);
+	//return (b + " " + r + " " + g + " , " + g + " " + b + " " + r);
 }
 
 		// Tetradic
 		// rotate 90 degrees
-		function tetradic(r, g, b, limit=255) {
-
+		function tetrad(r, g, b, limit=255) {
+			rotateHue(array[0], array[1], array[2], 90);
+			rotateHue(array[0], array[1], array[2], 180);
+			rotateHue(array[0], array[1], array[2], 270);
 }
 
 
@@ -396,6 +409,9 @@ let hueconversionarray = [inputred, inputyellow, inputblue];
 				//a = Math.floor(Math.random() * 361);
 				//a = event.target.value;
 				// need array for input colors
+
+				// for final loop through an array that contains the colors needed and assign values to a,b,c etc
+				// initialize them all as random neutrals as default and then replace afterwards based on need
 				let a = input_hsl[0];
 				let b = rgb2hslresult[0];
 				//let b = compliment;
@@ -491,7 +507,7 @@ let hueconversionarray = [inputred, inputyellow, inputblue];
 				let bnum;
 				let cnum;
 				let dnum;
-
+				// TODO maybe dont need floor, just compare math.randoms
 				anum = Math.floor(Math.random() * 100);
 				bnum = Math.floor(Math.random() * 100);
 				cnum = Math.floor(Math.random() * 100);
@@ -580,7 +596,7 @@ let hueconversionarray = [inputred, inputyellow, inputblue];
  	function complimentary(){
  		HSLToRGB(input_hsl[0], input_hsl[1], input_hsl[2]);
  		rgb2ryb(hsl2rgbresult[0], hsl2rgbresult[1], hsl2rgbresult[2]);
- 		rotateRGBHue(rgb2rybresult[0], rgb2rybresult[1], rgb2rybresult[2], 180);
+ 		rotateHue(rgb2rybresult[0], rgb2rybresult[1], rgb2rybresult[2], 180);
  		ryb2rgb(rotationresult[0], rotationresult[1], rotationresult[2]);
  		RGBToHSL(ryb2rgbresult[0], ryb2rgbresult[1], ryb2rgbresult[2]);
  		console.log(rgb2hslresult);
@@ -600,7 +616,7 @@ let hueconversionarray = [inputred, inputyellow, inputblue];
 // Main function (populates array based on initial color and options chosen)
 
 
-// Color Display (maybe do this in the html and css files)
+// Color Display (javascript onclick detection)
 
 // TESTING
 window.onload = function() {
@@ -785,7 +801,7 @@ function ryb2rgb(r, y, b){
 const deg = Math.PI / 180;
 const rotationresult = [0, 0, 0];
 
-function rotateRGBHue(r, g, b, rotationangle) {
+function rotateHue(r, x, b, rotationangle) {
   const cosA = Math.cos(rotationangle * deg);
   const sinA = Math.sin(rotationangle * deg);
   const neo = [
@@ -794,9 +810,9 @@ function rotateRGBHue(r, g, b, rotationangle) {
     (1 - cosA) / 3 + Math.sqrt(1 / 3) * sinA,
   ];
   const result = [
-    r * neo[0] + g * neo[1] + b * neo[2],
-    r * neo[2] + g * neo[0] + b * neo[1],
-    r * neo[1] + g * neo[2] + b * neo[0],
+    r * neo[0] + x * neo[1] + b * neo[2],
+    r * neo[2] + x * neo[0] + b * neo[1],
+    r * neo[1] + x * neo[2] + b * neo[0],
   ];
 
   const rotation = result.map(x => uint8(x));
@@ -807,7 +823,7 @@ function rotateRGBHue(r, g, b, rotationangle) {
 
   return result.map(x => uint8(x));
 
-  // returns 
+  // returns stuff in rotationresult
 }
 
 function uint8(value) {
