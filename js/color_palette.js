@@ -588,9 +588,9 @@ let hueconversionarray = [inputred, inputyellow, inputblue];
 				let c = 0;
 				let d = 0;
 
-				a = Math.floor(Math.random() * 101);
-				b = Math.floor(Math.random() * 101);
-				c = Math.floor(Math.random() * 101);
+				a = Math.floor(Math.random() * 90);
+				b = Math.floor(Math.random() * 70);
+				c = Math.floor(Math.random() * 50);
 				d = Math.floor(Math.random() * 101);
 
 				let anum;
