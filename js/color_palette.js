@@ -292,9 +292,146 @@ function RGBToHSL(r,g,b) {
   return "hsl(" + h + "," + s + "%," + l + "%)";
  }
 
+ // Convert RGB to RYB
+const rgb2rybresult = [0, 0, 0];
+
+function rgb2ryb(r, g, b){
+
+	// Remove the whiteness from the color.
+	let w = parseFloat(Math.min(r, g, b));
+	r = parseFloat(r) - w;
+	g = parseFloat(g) - w;
+	b = parseFloat(b) - w;
+
+	let mg = Math.max(r, g, b);
+
+	// Get the yellow out of the red+green.
+	let y = Math.min(r, g);
+	r -= y;
+	g -= y;
+
+	// If this unfortunate conversion combines blue and green, 
+	//then cut each in half to preserve the value's maximum range.
+	if (b > 0 && g > 0){
+		b /= 2.0;
+		g /= 2.0;
+	}
+
+	// Redistribute the remaining green.
+	y += g;
+	b += g;
+
+	// Normalize to values.
+	my = Math.max(r, y, b);
+	if (my > 0) {
+		n = mg / my;
+		r *= n;
+		y *= n;
+		b *= n;
+	}
+	// Add the white back in.
+	r += w;
+	y += w;
+	b += w;
+
+	rgb2rybresult[0] = r;
+	rgb2rybresult[1] = y;
+	rgb2rybresult[2] = b;
+
+	// And return back the ryb typed accordingly.
+	return (r + " " + y + " " + b);
+}
+
+// Convert RYB to RGB
+const ryb2rgbresult =[0, 0, 0];
+
+function ryb2rgb(r, y, b){
+	//t = type(r)
+
+	// Remove the whiteness from the color.
+	let w = parseFloat(Math.min(r, y, b));
+	r = parseFloat(r) - w;
+	y = parseFloat(y) - w;
+	b = parseFloat(b) - w;
+
+	let my = Math.max(r, y, b);
+
+	// Get the green out of the yellow and blue
+	g = Math.min(y, b);
+	y -= g;
+	b -= g;
+
+	if (b > 0 && g > 0){
+
+		b *= 2.0;
+		g *= 2.0;
+}
+	// Redistribute the remaining yellow.
+	r += y;
+	g += y;
+
+	// Normalize to values.
+	let mg = Math.max(r, g, b)
+	if (mg > 0) {
+		n = my / mg;
+		r *= n;
+		g *= n;
+		b *= n;
+}
+	// Add the white back in.
+	r += w;
+	g += w;
+	b += w;
+
+	ryb2rgbresult[0] = r;
+	ryb2rgbresult[1] = g;
+	ryb2rgbresult[2] = b;
+
+  // And return back the ryb typed accordingly.
+
+	return (r + " " + g + " " + b);
+}
+
+
 // Color calculation functions
 // Take hsl hue value as input, calculate corresponding colors
 // Stick them into new array for poplating functions to use
+
+// cube rotation
+// figure this out and add comments
+
+// get degrees from radians
+const deg = Math.PI / 180;
+const rotationresult = [0, 0, 0];
+
+function rotateHue(r, x, b, rotationangle) {
+  const cosA = Math.cos(rotationangle * deg);
+  const sinA = Math.sin(rotationangle * deg);
+  const neo = [
+    cosA + (1 - cosA) / 3,
+    (1 - cosA) / 3 - Math.sqrt(1 / 3) * sinA,
+    (1 - cosA) / 3 + Math.sqrt(1 / 3) * sinA,
+  ];
+  const result = [
+    r * neo[0] + x * neo[1] + b * neo[2],
+    r * neo[2] + x * neo[0] + b * neo[1],
+    r * neo[1] + x * neo[2] + b * neo[0],
+  ];
+
+  const rotation = result.map(x => uint8(x));
+  // might not need these, might be able to use returned array
+  rotationresult[0] = rotation[0];
+  rotationresult[1] = rotation[1];
+  rotationresult[2] = rotation[2];
+
+  return result.map(x => uint8(x));
+
+  // returns stuff in rotationresult
+}
+
+function uint8(value) { // limits value
+  return 0 > value ? 0 : (255 < value ? 255 : Math.round(value));
+}
 
 
 let neededColors = []; // add all calculated colors to this array
@@ -322,7 +459,9 @@ let hueconversionarray = [inputred, inputyellow, inputblue];
 	// input rgb2ryb result as the array parameter
 
 		// Greyscale
-
+		// function Grayscale(array) {
+		// 	neededColors.push()
+		// }
 		// no rotation, just populate
 
 		// Monochromatic
@@ -468,46 +607,11 @@ let hueconversionarray = [inputred, inputyellow, inputblue];
 // Color array populating functions
 
 	// Hue 
-
-	/* Number of values -> number of colors needed
-	   Randomly assign numbers to values
-	   Highest valued color placed into spot
-	   Reassign numbers for each spot in the array
-	   Once array full, check to see if all colors have been used
-	   If not, reassign missing color to random spot in array
-	   Repeat check until all colors used
-	   Replace values with corresponding colors
-	   Place final colors into global palette array
-	*/
-
-	/* Take input array of known length (based on number of colors)
-			just load in neededcolors array
-	*/
-
-		// Test
 		function loadColor() {
-			/*
-				let a = 0;
-				let b = 0;
-				let c = 0;
-				let d = 0;
-				*/
 
-				//a = Math.floor(Math.random() * 361);
-				//a = event.target.value;
-				// need array for input colors
-
-				// for final loop through neededcolors array and assign values to a,b,c etc
-				// initialize them all as random neutrals as default and then replace afterwards based on need
 				let a = (neededColors[0] == undefined) ? Math.floor(Math.random() * 361) : neededColors[0];
-				//let a = input_hsl[0];
-				//let b = rgb2hslresult[0];
 				let b = (neededColors[1] == undefined) ? Math.floor(Math.random() * 361) : neededColors[1];
-				//let b = compliment;
-				//let c = 0;
-				//let d = 0;
 				let c = (neededColors[2] == undefined) ? Math.floor(Math.random() * 361) : neededColors[2];
-				//let c = Math.floor(Math.random() * 361);
 				let d = (neededColors[3] == undefined) ? Math.floor(Math.random() * 361) : neededColors[3];
 
 				let acheck = (neededColors[0] == undefined) ? null : 0;
@@ -516,16 +620,7 @@ let hueconversionarray = [inputred, inputyellow, inputblue];
 				let dcheck = (neededColors[3] == undefined) ? null : 0;
 
 			for (let i = 0; i < 7; i++) {
-				  // use array to store a, b, c , d etc 
-					// for actual function assign variablearray[0]  = inputarray[huevalue0];
-					// etc etc
 
-					// array for anum -> loop to assign based on length of variable array
-					// in loop default assign them random values
-					// create separate function for these array initializations?
-
-					// also function for checking if hsl numbers are too close
-					// consider letting any extra values be greys/neutrals
 				let anum;
 				let bnum;
 				let cnum;
@@ -534,16 +629,8 @@ let hueconversionarray = [inputred, inputyellow, inputblue];
 				anum = (neededColors[0] == undefined) ? 0 : Math.floor(Math.random() * 100);
 				bnum = (neededColors[1] == undefined) ? 0 : Math.floor(Math.random() * 100);
 				cnum = (neededColors[2] == undefined) ? 0 : Math.floor(Math.random() * 100);
-				dnum = (neededColors[3] == undefined) ? 0 : Math.floor(Math.random() * 100);//Math.floor(Math.random() * 100);
-				// when comparing it will be ranarray[0] >= ranarray[1] etc 
-				// using for loop 
-				// look into Math.max
-				/*
-					var arr = [1,2,3];
-					var max = arr.reduce(function(a, b) {
-   				return Math.max(a, b);
-					}, -Infinity);
-				*/
+				dnum = (neededColors[3] == undefined) ? 0 : Math.floor(Math.random() * 100);
+
 				if ((anum >= bnum) && (anum >= cnum) && (anum >= dnum)) {
 					// [H, S, L] values
 					palette[i][0] = [a];
@@ -561,11 +648,6 @@ let hueconversionarray = [inputred, inputyellow, inputblue];
 					palette[i][0] = [d];
 					dcheck += 1;
 				}
-				// use includes() to check if all colors are in array at least once
-				// if not use if statement to reassign a value 
-				// then check by going through all the colors again
-				// using for / while loop? 
-				// look into using continue[] to restart loop if any of the if statements are entered
 			}
 
 			let x = 0;
@@ -642,11 +724,6 @@ let hueconversionarray = [inputred, inputyellow, inputblue];
 
 	// Saturation
 
-	/* Same concept as 'Hue' above
-	   Not all saturation values need to be used
-	*/
-	
-	// Test
 	function loadSaturation() {
 
 		for (let i = 0; i < 7; i++) {
@@ -697,16 +774,12 @@ let hueconversionarray = [inputred, inputyellow, inputblue];
 
 		}
 	// Lightness
-
-	// Test
 	function loadLight() {
 
 		for (let i = 0; i < 7; i++) {
 				// [H, S, L] values
 				palette[i][2] = [light_standard[i]];
 			}
-		// Test
-		console.log(palette);
 	}
 
 	// Test
@@ -748,6 +821,8 @@ let hueconversionarray = [inputred, inputyellow, inputblue];
 	   Not all lightness values need to be used
 	   2. Apply preset lightness values to the global palette array
 	*/
+
+	// Color scheme selection based off radio input
 	var colorscheme = 0;
 
 	function analyzeColor(myColor) {
@@ -785,38 +860,30 @@ let hueconversionarray = [inputred, inputyellow, inputblue];
  		neededColors = [];
  		hexToHSL(input_hex);
 
-
- 		//mono(input_hsl);
- 		//triad(input_hsl);
- 		//anal(input_hsl);
- 		//comp(input_hsl);
- 		//square(input_hsl);
- 		//rectangle(input_hsl);
- 		//splitcomp(input_hsl);
  		if (colorscheme != 0){
  			colorscheme(input_hsl);
  		}
 
- 		//complimentary();
  		loadColor();
  		//loadSaturation();
  		loadSatRand();
  		//loadLightRand();
  		loadLight();
  	}
- 	// TEST
- 	// takes selected input color, returns complimentary in hsl format
- 	function complimentary(){
- 		HSLToRGB(input_hsl[0], input_hsl[1], input_hsl[2]);
- 		rgb2ryb(hsl2rgbresult[0], hsl2rgbresult[1], hsl2rgbresult[2]);
- 		rotateHue(rgb2rybresult[0], rgb2rybresult[1], rgb2rybresult[2], 180);
- 		// replace rotatehue here with comp()
- 		ryb2rgb(rotationresult[0], rotationresult[1], rotationresult[2]);
- 		RGBToHSL(ryb2rgbresult[0], ryb2rgbresult[1], ryb2rgbresult[2]);
- 		neededColors[0] = input_hsl[0];
- 		neededColors[1] = rgb2hslresult[0];
- 		console.log(rgb2hslresult);
- 	}
+
+ 	// // TEST
+ 	// // takes selected input color, returns complimentary in hsl format
+ 	// function complimentary(){
+ 	// 	HSLToRGB(input_hsl[0], input_hsl[1], input_hsl[2]);
+ 	// 	rgb2ryb(hsl2rgbresult[0], hsl2rgbresult[1], hsl2rgbresult[2]);
+ 	// 	rotateHue(rgb2rybresult[0], rgb2rybresult[1], rgb2rybresult[2], 180);
+ 	// 	// replace rotatehue here with comp()
+ 	// 	ryb2rgb(rotationresult[0], rotationresult[1], rotationresult[2]);
+ 	// 	RGBToHSL(ryb2rgbresult[0], ryb2rgbresult[1], ryb2rgbresult[2]);
+ 	// 	neededColors[0] = input_hsl[0];
+ 	// 	neededColors[1] = rgb2hslresult[0];
+ 	// 	console.log(rgb2hslresult);
+ 	// }
 //  	}
 // // TEST
 // function triadic(){
@@ -877,8 +944,6 @@ function startup() {
 function updateAll(event) {
 	input_hex = event.target.value;
  }
-// use above updateall to change input color that gets fed into functions
-
 
 function changeStyle(){
 
@@ -932,140 +997,4 @@ function changeStyle(){
     // call respective population functions
     // populate array
     // display colors on html site
-
-// Convert RGB to RYB
-const rgb2rybresult = [0, 0, 0];
-
-function rgb2ryb(r, g, b){
-
-	// Remove the whiteness from the color.
-	let w = parseFloat(Math.min(r, g, b));
-	r = parseFloat(r) - w;
-	g = parseFloat(g) - w;
-	b = parseFloat(b) - w;
-
-	let mg = Math.max(r, g, b);
-
-	// Get the yellow out of the red+green.
-	let y = Math.min(r, g);
-	r -= y;
-	g -= y;
-
-	// If this unfortunate conversion combines blue and green, 
-	//then cut each in half to preserve the value's maximum range.
-	if (b > 0 && g > 0){
-		b /= 2.0;
-		g /= 2.0;
-	}
-
-	// Redistribute the remaining green.
-	y += g;
-	b += g;
-
-	// Normalize to values.
-	my = Math.max(r, y, b);
-	if (my > 0) {
-		n = mg / my;
-		r *= n;
-		y *= n;
-		b *= n;
-	}
-	// Add the white back in.
-	r += w;
-	y += w;
-	b += w;
-
-	rgb2rybresult[0] = r;
-	rgb2rybresult[1] = y;
-	rgb2rybresult[2] = b;
-
-	// And return back the ryb typed accordingly.
-	return (r + " " + y + " " + b);
-}
-
-// Convert RYB to RGB
-const ryb2rgbresult =[0, 0, 0];
-
-function ryb2rgb(r, y, b){
-	//t = type(r)
-
-	// Remove the whiteness from the color.
-	let w = parseFloat(Math.min(r, y, b));
-	r = parseFloat(r) - w;
-	y = parseFloat(y) - w;
-	b = parseFloat(b) - w;
-
-	let my = Math.max(r, y, b);
-
-	// Get the green out of the yellow and blue
-	g = Math.min(y, b);
-	y -= g;
-	b -= g;
-
-	if (b > 0 && g > 0){
-
-		b *= 2.0;
-		g *= 2.0;
-}
-	// Redistribute the remaining yellow.
-	r += y;
-	g += y;
-
-	// Normalize to values.
-	let mg = Math.max(r, g, b)
-	if (mg > 0) {
-		n = my / mg;
-		r *= n;
-		g *= n;
-		b *= n;
-}
-	// Add the white back in.
-	r += w;
-	g += w;
-	b += w;
-
-	ryb2rgbresult[0] = r;
-	ryb2rgbresult[1] = g;
-	ryb2rgbresult[2] = b;
-
-  // And return back the ryb typed accordingly.
-
-	return (r + " " + g + " " + b);
-}
-
-
-// cube rotation
-// figure this out and add comments
-
-// get degrees from radians
-const deg = Math.PI / 180;
-const rotationresult = [0, 0, 0];
-
-function rotateHue(r, x, b, rotationangle) {
-  const cosA = Math.cos(rotationangle * deg);
-  const sinA = Math.sin(rotationangle * deg);
-  const neo = [
-    cosA + (1 - cosA) / 3,
-    (1 - cosA) / 3 - Math.sqrt(1 / 3) * sinA,
-    (1 - cosA) / 3 + Math.sqrt(1 / 3) * sinA,
-  ];
-  const result = [
-    r * neo[0] + x * neo[1] + b * neo[2],
-    r * neo[2] + x * neo[0] + b * neo[1],
-    r * neo[1] + x * neo[2] + b * neo[0],
-  ];
-
-  const rotation = result.map(x => uint8(x));
-  // might not need these, might be able to use returned array
-  rotationresult[0] = rotation[0];
-  rotationresult[1] = rotation[1];
-  rotationresult[2] = rotation[2];
-
-  return result.map(x => uint8(x));
-
-  // returns stuff in rotationresult
-}
-
-function uint8(value) { // limits value
-  return 0 > value ? 0 : (255 < value ? 255 : Math.round(value));
-}
+    
