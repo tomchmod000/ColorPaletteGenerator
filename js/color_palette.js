@@ -41,7 +41,7 @@ https://www.w3schools.com/colors/colors_picker.asp
 // Microadjustment functions
 // Adjust array values so they fall within a certain range
 // Allow for small user adjustments
-
+// TODO implement greyscale
 	// Warmth
 
 	// Saturation 
@@ -145,6 +145,8 @@ let input_hsl = [0, 0, 0];
 let red = 0;
 let green = 0;
 let blue = 0;
+
+let neededColors = []; // All calculated colors added to this array
 
 // Color conversions from HSL to HSLA, RGB, RGBA, and Hex
 // Conversion process for usable color:
@@ -404,10 +406,9 @@ function ryb2rgb(r, y, b){
 	return (r + " " + g + " " + b);
 }
 
-
+////
 // Color calculation functions
-// Take hsl hue value as input, calculate corresponding colors
-// Stick them into new array for poplating functions to use
+////
 
 // cube rotation
 // figure this out and add comments
@@ -445,294 +446,217 @@ function uint8(value) { // limits value
   return 0 > value ? 0 : (255 < value ? 255 : Math.round(value));
 }
 
-
-let neededColors = []; // add all calculated colors to this array
-												// reset array at the start of every generator
-
-// put these in array, load rgb to ryb conversion into here
-let inputred = 0;
-let inputyellow = 0;
-let inputblue = 0;
-let hueconversionarray = [inputred, inputyellow, inputblue];
-
-		// TODO move into separate area
-		function HSL2ryb(){
-			HSLToRGB(input_hsl[0], input_hsl[1], input_hsl[2]);
-
- 			rgb2ryb(hsl2rgbresult[0], hsl2rgbresult[1], hsl2rgbresult[2]);
-		}
-
-		function ryb2HSL(){
-			ryb2rgb(rotationresult[0], rotationresult[1], rotationresult[2]);
-
- 			RGBToHSL(ryb2rgbresult[0], ryb2rgbresult[1], ryb2rgbresult[2]);
-		}
-
-	// input rgb2ryb result as the array parameter
-
-		// Greyscale
-		// function Grayscale(array) {
-		// 	neededColors.push()
-		// }
-		// no rotation, just populate
-
-		// Monochromatic
-		function mono(array) {
-			neededColors.push(input_hsl[0]);
-		}
-		//no rotation, just populate
-
-		// Analogus 
-		// rotate to the sides + / - 30 degrees -> 30, 330
-		function anal(array){ // find a better function name for this ASAP
-			neededColors.push(input_hsl[0]);
-
-			HSL2ryb();
-
-			rotateHue(rgb2rybresult[0], rgb2rybresult[1], rgb2rybresult[2], 30);
-
-			ryb2HSL();
-
-			neededColors.push(rgb2hslresult[0]);
-
-			rotateHue(rgb2rybresult[0], rgb2rybresult[1], rgb2rybresult[2], 330);
-
-			ryb2HSL();
-
-			neededColors.push(rgb2hslresult[0]);
-		}
-
-		// Complementary
-
-		function comp(array) { // take results from rotationresult and input into neededcolors
-
-			neededColors.push(input_hsl[0]);
-
-			HSL2ryb();
-
-			rotateHue(rgb2rybresult[0], rgb2rybresult[1], rgb2rybresult[2], 180);
-
-			ryb2HSL();
-
- 			neededColors.push(rgb2hslresult[0]);
-		}
-
-		// Split Complementary
-		// 180 degrees then another + / - 30
-
-		function splitcomp(array){
-			neededColors.push(input_hsl[0]);
-
-			HSL2ryb();
-
-			rotateHue(rgb2rybresult[0], rgb2rybresult[1], rgb2rybresult[2], 150);
-
-			ryb2HSL();
-
-			neededColors.push(rgb2hslresult[0]);
-
-			rotateHue(rgb2rybresult[0], rgb2rybresult[1], rgb2rybresult[2], 210);
-
-			ryb2HSL();
-
-			neededColors.push(rgb2hslresult[0]);
-		}
-		// Triadic
-
-		function triad(array) {
-
-			neededColors.push(input_hsl[0]);
-
-			HSL2ryb();
-
-			rotateHue(rgb2rybresult[0], rgb2rybresult[1], rgb2rybresult[2], 120);
-
-			ryb2HSL();
-
- 			neededColors.push(rgb2hslresult[0]);
-
- 			console.log(rgb2hslresult);
-
-			rotateHue(rgb2rybresult[0], rgb2rybresult[1], rgb2rybresult[2], 240);
-
-			ryb2HSL();
-
- 			neededColors.push(rgb2hslresult[0]);
-
- 			console.log(rgb2hslresult);
-		}
-
-		// Tetradic
-
-		// rotate 90 degrees
-		function square(array) { // took out limit = 255 in these functions, check to see if still needed
-
-			neededColors.push(input_hsl[0]);
-
-			HSL2ryb();
-
-			rotateHue(rgb2rybresult[0], rgb2rybresult[1], rgb2rybresult[2], 90);
-
-			ryb2HSL();
-
-			neededColors.push(rgb2hslresult[0]);
-
-			rotateHue(rgb2rybresult[0], rgb2rybresult[1], rgb2rybresult[2], 180);
-
-			ryb2HSL();
-
-			neededColors.push(rgb2hslresult[0]);
-
-			rotateHue(rgb2rybresult[0], rgb2rybresult[1], rgb2rybresult[2], 270);
-
-			ryb2HSL();
-
-			neededColors.push(rgb2hslresult[0]);
-		}
-
-		// rotate 60, 180, 240
-		function rectangle(array) {
-			neededColors.push(input_hsl[0]);
-
-			HSL2ryb();
-
-			rotateHue(rgb2rybresult[0], rgb2rybresult[1], rgb2rybresult[2], 60);
-
-			ryb2HSL();
-
-			neededColors.push(rgb2hslresult[0]);
-
-			rotateHue(rgb2rybresult[0], rgb2rybresult[1], rgb2rybresult[2], 180);
-
-			ryb2HSL();
-
-			neededColors.push(rgb2hslresult[0]);
-
-			rotateHue(rgb2rybresult[0], rgb2rybresult[1], rgb2rybresult[2], 240);
-
-			ryb2HSL();
-
-			neededColors.push(rgb2hslresult[0]);
-		}
-
-
+// Shortened Conversion Functions
+function HSL2ryb(){
+	HSLToRGB(input_hsl[0], input_hsl[1], input_hsl[2]);
+	rgb2ryb(hsl2rgbresult[0], hsl2rgbresult[1], hsl2rgbresult[2]);
+}
+
+function ryb2HSL(){
+	ryb2rgb(rotationresult[0], rotationresult[1], rotationresult[2]);
+	RGBToHSL(ryb2rgbresult[0], ryb2rgbresult[1], ryb2rgbresult[2]);
+}
+
+// Greyscale
+
+// Monochromatic
+function mono(array) { // No need for rotation, array parameter included for consistency
+	neededColors.push(input_hsl[0]);
+}
+
+// Analogus - rotate 30, 330 degrees aka 30 degrees to each side
+function anal(array) {
+	neededColors.push(input_hsl[0]);
+	HSL2ryb();
+	rotateHue(rgb2rybresult[0], rgb2rybresult[1], rgb2rybresult[2], 30);
+	ryb2HSL();
+	neededColors.push(rgb2hslresult[0]);
+	rotateHue(rgb2rybresult[0], rgb2rybresult[1], rgb2rybresult[2], 330);
+	ryb2HSL();
+	neededColors.push(rgb2hslresult[0]);
+}
+
+// Complementary - 180 degrees, directly across
+function comp(array) {
+	neededColors.push(input_hsl[0]);
+	HSL2ryb();
+	rotateHue(rgb2rybresult[0], rgb2rybresult[1], rgb2rybresult[2], 180);
+	ryb2HSL();
+	neededColors.push(rgb2hslresult[0]);
+}
+
+// Split Complementary - 180 degrees then another +/- 30
+function splitcomp(array){
+	neededColors.push(input_hsl[0]);
+	HSL2ryb();
+	rotateHue(rgb2rybresult[0], rgb2rybresult[1], rgb2rybresult[2], 150);
+	ryb2HSL();
+	neededColors.push(rgb2hslresult[0]);
+	rotateHue(rgb2rybresult[0], rgb2rybresult[1], rgb2rybresult[2], 210);
+	ryb2HSL();
+	neededColors.push(rgb2hslresult[0]);
+}
+
+// Triadic - rotate 120 degrees twice
+function triad(array) {
+	neededColors.push(input_hsl[0]);
+	HSL2ryb();
+	rotateHue(rgb2rybresult[0], rgb2rybresult[1], rgb2rybresult[2], 120);
+	ryb2HSL();
+	neededColors.push(rgb2hslresult[0]);
+	rotateHue(rgb2rybresult[0], rgb2rybresult[1], rgb2rybresult[2], 240);
+	ryb2HSL();
+	neededColors.push(rgb2hslresult[0]);
+}
+
+// Tetradic Square - rotate 90 degrees thrice
+function square(array) {
+	neededColors.push(input_hsl[0]);
+	HSL2ryb();
+	rotateHue(rgb2rybresult[0], rgb2rybresult[1], rgb2rybresult[2], 90);
+	ryb2HSL();
+	neededColors.push(rgb2hslresult[0]);
+	rotateHue(rgb2rybresult[0], rgb2rybresult[1], rgb2rybresult[2], 180);
+	ryb2HSL();
+	neededColors.push(rgb2hslresult[0]);
+	rotateHue(rgb2rybresult[0], rgb2rybresult[1], rgb2rybresult[2], 270);
+	ryb2HSL();
+	neededColors.push(rgb2hslresult[0]);
+}
+
+
+// Tetradic Rectangle - rotate rotate 60, 180, and 240 degrees 
+function rectangle(array) {
+	neededColors.push(input_hsl[0]);
+	HSL2ryb();
+	rotateHue(rgb2rybresult[0], rgb2rybresult[1], rgb2rybresult[2], 60);
+	ryb2HSL();
+	neededColors.push(rgb2hslresult[0]);
+	rotateHue(rgb2rybresult[0], rgb2rybresult[1], rgb2rybresult[2], 180);
+	ryb2HSL();
+	neededColors.push(rgb2hslresult[0]);
+	rotateHue(rgb2rybresult[0], rgb2rybresult[1], rgb2rybresult[2], 240);
+	ryb2HSL();
+	neededColors.push(rgb2hslresult[0]);
+}
+
+////
 // Color array populating functions
+////
 
-	// Hue 
-		function loadColor() {
+// Hue 
+function loadColor() { // Load in random for non-needed indexes
+	let a = (neededColors[0] == undefined) ? Math.floor(Math.random() * 361) : neededColors[0];
+	let b = (neededColors[1] == undefined) ? Math.floor(Math.random() * 361) : neededColors[1];
+	let c = (neededColors[2] == undefined) ? Math.floor(Math.random() * 361) : neededColors[2];
+	let d = (neededColors[3] == undefined) ? Math.floor(Math.random() * 361) : neededColors[3];
 
-				let a = (neededColors[0] == undefined) ? Math.floor(Math.random() * 361) : neededColors[0];
-				let b = (neededColors[1] == undefined) ? Math.floor(Math.random() * 361) : neededColors[1];
-				let c = (neededColors[2] == undefined) ? Math.floor(Math.random() * 361) : neededColors[2];
-				let d = (neededColors[3] == undefined) ? Math.floor(Math.random() * 361) : neededColors[3];
+	let acheck = (neededColors[0] == undefined) ? null : 0;
+	let bcheck = (neededColors[1] == undefined) ? null : 0;
+	let ccheck = (neededColors[2] == undefined) ? null : 0;
+	let dcheck = (neededColors[3] == undefined) ? null : 0;
 
-				let acheck = (neededColors[0] == undefined) ? null : 0;
-				let bcheck = (neededColors[1] == undefined) ? null : 0;
-				let ccheck = (neededColors[2] == undefined) ? null : 0;
-				let dcheck = (neededColors[3] == undefined) ? null : 0;
+	for (let i = 0; i < 7; i++) {
+		let anum;
+		let bnum;
+		let cnum;
+		let dnum;
 
-			for (let i = 0; i < 7; i++) {
+		anum = (neededColors[0] == undefined) ? 0 : Math.floor(Math.random() * 100);
+		bnum = (neededColors[1] == undefined) ? 0 : Math.floor(Math.random() * 100);
+		cnum = (neededColors[2] == undefined) ? 0 : Math.floor(Math.random() * 100);
+		dnum = (neededColors[3] == undefined) ? 0 : Math.floor(Math.random() * 100);
 
-				let anum;
-				let bnum;
-				let cnum;
-				let dnum;
-
-				anum = (neededColors[0] == undefined) ? 0 : Math.floor(Math.random() * 100);
-				bnum = (neededColors[1] == undefined) ? 0 : Math.floor(Math.random() * 100);
-				cnum = (neededColors[2] == undefined) ? 0 : Math.floor(Math.random() * 100);
-				dnum = (neededColors[3] == undefined) ? 0 : Math.floor(Math.random() * 100);
-
-				if ((anum >= bnum) && (anum >= cnum) && (anum >= dnum)) {
-					// [H, S, L] values
-					palette[i][0] = [a];
-					acheck += 1;
-				}
-				else if ((bnum >= cnum) && (bnum >= dnum)) {
-					palette[i][0] = [b];
-					bcheck += 1;
-				}
-				else if (cnum >= dnum) {
-					palette[i][0] = [c];
-					ccheck += 1;
-				}
-				else {
-					palette[i][0] = [d];
-					dcheck += 1;
-				}
-			}
-
-			let x = 0;
-
-			while (x == 0) {
-				if (acheck <= 0 && acheck != null){
-					temp = palette[0][0];
-					if (temp == b){
-						bcheck -= 1;
-					}
-					else if (temp == c){
-						ccheck -= 1;
-					}
-					else {
-						dcheck -= 1;
-					}
-					palette[0][0] = a;
-					acheck += 1;
-					continue;
-				}
-
-				if (bcheck <= 0 && bcheck != null){
-					temp = palette[1][0];
-					if (temp == a){
-						acheck -= 1;
-					}
-					else if (temp == c){
-						ccheck -= 1;
-					}
-					else {
-						dcheck -= 1;
-					}
-					palette[1][0] = b;
-					bcheck += 1;
-					continue;
-				}
-
-				if (ccheck <= 0 && ccheck != null){
-					temp = palette[2][0];
-					if (temp == a){
-						acheck -= 1;
-					}
-					else if (temp == b){
-						bcheck -= 1;
-					}
-					else {
-						dcheck -= 1;
-					}
-					palette[2][0] = c;
-					ccheck += 1;
-					continue;
-				}
-
-				if (dcheck <= 0 && dcheck != null){
-					temp = palette[3][0];
-					if (temp == a){
-						acheck -= 1;
-					}
-					else if (temp == b){
-						bcheck -= 1;
-					}
-					else {
-						ccheck -= 1;
-					}
-					palette[3][0] = d;
-					dcheck += 1;
-					continue;
-				}
-				break;
-			}
-
-
+		// Random loading
+		if ((anum >= bnum) && (anum >= cnum) && (anum >= dnum)) {
+			palette[i][0] = [a];
+			acheck += 1;
 		}
+		else if ((bnum >= cnum) && (bnum >= dnum)) {
+			palette[i][0] = [b];
+			bcheck += 1;
+		}
+		else if (cnum >= dnum) {
+			palette[i][0] = [c];
+			ccheck += 1;
+		}
+		else {
+			palette[i][0] = [d];
+			dcheck += 1;
+		}
+	}
+
+	// Check each needed color appears in array at least once
+	// If not, replace, rinse and repeat
+	let x = 0;
+
+	while (x == 0) {
+		if (acheck <= 0 && acheck != null){
+			temp = palette[0][0];
+			if (temp == b){
+				bcheck -= 1;
+			}
+			else if (temp == c){
+				ccheck -= 1;
+			}
+			else {
+				dcheck -= 1;
+			}
+			palette[0][0] = a;
+			acheck += 1;
+			continue;
+		}
+
+		if (bcheck <= 0 && bcheck != null){
+			temp = palette[1][0];
+			if (temp == a){
+				acheck -= 1;
+			}
+			else if (temp == c){
+				ccheck -= 1;
+			}
+			else {
+				dcheck -= 1;
+			}
+			palette[1][0] = b;
+			bcheck += 1;
+			continue;
+		}
+
+		if (ccheck <= 0 && ccheck != null){
+			temp = palette[2][0];
+			if (temp == a){
+				acheck -= 1;
+			}
+			else if (temp == b){
+				bcheck -= 1;
+			}
+			else {
+				dcheck -= 1;
+			}
+			palette[2][0] = c;
+			ccheck += 1;
+			continue;
+		}
+
+		if (dcheck <= 0 && dcheck != null){
+			temp = palette[3][0];
+			if (temp == a){
+				acheck -= 1;
+			}
+			else if (temp == b){
+				bcheck -= 1;
+			}
+			else {
+				ccheck -= 1;
+			}
+			palette[3][0] = d;
+			dcheck += 1;
+			continue;
+		}
+		break;
+	}
+}
 
 // Preset Saturation
 function loadSaturation() {
@@ -813,39 +737,11 @@ function loadLightRand() {
 			palette[i][2] = [d];
 		}
 	}
-
 }
 
-// Color scheme selection based off radio input
-var colorscheme = 0;
-
-function analyzeColor(myColor) {
-	switch (myColor) {
-		case "Monochrome":
-			colorscheme = mono;
-			break
-		case "Analogus":
-			colorscheme = anal;
-			break
-		case "Complementary":
-			colorscheme = comp;
-			break
-		case "Split Complementary":
-			colorscheme = splitcomp;
-			break
-		case "Triadic":
-			colorscheme = triad;
-			break
-		case "Square":
-			colorscheme = square;
-			break
-		case "Rectangle":
-			colorscheme = rectangle;
-			break
-		default:
-			colorscheme = 0;
-	}
-}
+////
+// HTML interactions
+////
 
 // Main function (populates array based on initial color and options chosen)
 function Load() {
@@ -884,6 +780,37 @@ function startup() {
 
 function updateAll(event) {
 	input_hex = event.target.value;
+}
+
+// Color scheme selection based off radio input
+var colorscheme = 0;
+
+function analyzeColor(myColor) {
+	switch (myColor) {
+		case "Monochrome":
+			colorscheme = mono;
+			break
+		case "Analogus":
+			colorscheme = anal;
+			break
+		case "Complementary":
+			colorscheme = comp;
+			break
+		case "Split Complementary":
+			colorscheme = splitcomp;
+			break
+		case "Triadic":
+			colorscheme = triad;
+			break
+		case "Square":
+			colorscheme = square;
+			break
+		case "Rectangle":
+			colorscheme = rectangle;
+			break
+		default:
+			colorscheme = 0;
+	}
 }
 
 // Palette Updater
