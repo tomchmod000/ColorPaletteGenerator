@@ -848,9 +848,7 @@ let hueconversionarray = [inputred, inputyellow, inputblue];
 	}
 }
 
- 	// Test
- 	
-
+// TODO
 // Microadjustment functions
 // Adjust array values so they fall within a certain range
 // Allow for small user adjustments
@@ -864,11 +862,11 @@ let hueconversionarray = [inputred, inputyellow, inputblue];
 
 // Main function (populates array based on initial color and options chosen)
 function Load() {
- 	input_hsl = [];
+ 	input_hsl = []; // Clear both global arrays before every palette update
  	neededColors = [];
- 	hexToHSL(input_hex);
+ 	hexToHSL(input_hex); // Need to use HSL values to start the conversion process
 
- 	if (colorscheme != 0){
+ 	if (colorscheme != 0){ // If no color scheme selected, skip and load in random
  		colorscheme(input_hsl);
  	}
 
@@ -877,8 +875,6 @@ function Load() {
  	loadLight(); // Can saw between preset and random functions
 }
 
-// Color Display (javascript onclick detection)
-
 // Initialization
 window.onload = function() {
   initializePalette();
@@ -886,6 +882,7 @@ window.onload = function() {
   radiobtn.checked = true;
 };
 
+// Color Input
 var colorWell;
 var defaultColor = "#0000ff";
 
@@ -897,54 +894,58 @@ function startup() {
   colorWell.addEventListener("change", updateAll, false);
   colorWell.select();
 }
+
 function updateAll(event) {
 	input_hex = event.target.value;
- }
+}
 
+// Palette Updater
 // Called when "load palette" button clicked in html file
 function changeStyle(){
+  Load();
 
-		Load();
+	convertArrayToHSL(); 
 
-		convertArrayToHSL();
+	// Update Colors
+  var element = document.getElementById("myDiv1");
+  element.style.backgroundColor = HSLpalette[0];
 
-        var element = document.getElementById("myDiv1");
-        element.style.backgroundColor = HSLpalette[0];
+  var element = document.getElementById("myDiv2");
+  element.style.backgroundColor = HSLpalette[1];
 
-        var element = document.getElementById("myDiv2");
-        element.style.backgroundColor = HSLpalette[1];
+  var element = document.getElementById("myDiv3");
+  element.style.backgroundColor = HSLpalette[2];
 
-        var element = document.getElementById("myDiv3");
-        element.style.backgroundColor = HSLpalette[2];
+  var element = document.getElementById("myDiv4");
+  element.style.backgroundColor = HSLpalette[3];
 
-        var element = document.getElementById("myDiv4");
-        element.style.backgroundColor = HSLpalette[3];
+  var element = document.getElementById("myDiv5");
+  element.style.backgroundColor = HSLpalette[4];
 
-        var element = document.getElementById("myDiv5");
-        element.style.backgroundColor = HSLpalette[4];
+  var element = document.getElementById("myDiv6");
+  element.style.backgroundColor = HSLpalette[5];
 
-        var element = document.getElementById("myDiv6");
-        element.style.backgroundColor = HSLpalette[5];
+  var element = document.getElementById("myDiv7");
+  element.style.backgroundColor = HSLpalette[6];
 
-        var element = document.getElementById("myDiv7");
-        element.style.backgroundColor = HSLpalette[6];
- // change these to loops later once everything is working
-				const inputColor = document.getElementById("input_color"); 
-				const color1 = document.getElementById("color1");
-				const color2 = document.getElementById("color2");
-				const color3 = document.getElementById("color3");
-				const color4 = document.getElementById("color4");
-				const color5 = document.getElementById("color5");
-				const color6 = document.getElementById("color6");
-				const color7 = document.getElementById("color7");
+	const inputColor = document.getElementById("input_color"); 
+	const color1 = document.getElementById("color1");
+	const color2 = document.getElementById("color2");
+	const color3 = document.getElementById("color3");
+	const color4 = document.getElementById("color4");
+	const color5 = document.getElementById("color5");
+	const color6 = document.getElementById("color6");
+	const color7 = document.getElementById("color7");
 
-        inputColor.textContent = "Input color: " + "HEX = " + input_hex + ", HSL = (" + input_hsl[0] + ", " + input_hsl[1] + ", " + input_hsl[2] + ")";
+	// Update input color information
+  inputColor.textContent = "Input color: " + "HEX = " + input_hex + ", HSL = (" + input_hsl[0] + ", " + input_hsl[1] + ", " + input_hsl[2] + ")";
 
-        color1.textContent = "HSL = (" + palette[0][0] + ", " + palette[0][1] + ", " + palette[0][2] + ")";
-        color2.textContent = "HSL = (" + palette[1][0] + ", " + palette[1][1] + ", " + palette[1][2] + ")";
-        color3.textContent = "HSL = (" + palette[2][0] + ", " + palette[2][1] + ", " + palette[2][2] + ")";
-        color4.textContent = "HSL = (" + palette[3][0] + ", " + palette[3][1] + ", " + palette[3][2] + ")";
-        color5.textContent = "HSL = (" + palette[4][0] + ", " + palette[4][1] + ", " + palette[4][2] + ")";
-        color6.textContent = "HSL = (" + palette[5][0] + ", " + palette[5][1] + ", " + palette[5][2] + ")";
-        color7.textContent = "HSL = (" + palette[6][0] + ", " + palette[6][1] + ", " + palette[6][2] + ")";
-    }
+  // Update color card info
+  color1.textContent = "HSL = (" + palette[0][0] + ", " + palette[0][1] + ", " + palette[0][2] + ")";
+  color2.textContent = "HSL = (" + palette[1][0] + ", " + palette[1][1] + ", " + palette[1][2] + ")";
+  color3.textContent = "HSL = (" + palette[2][0] + ", " + palette[2][1] + ", " + palette[2][2] + ")";
+  color4.textContent = "HSL = (" + palette[3][0] + ", " + palette[3][1] + ", " + palette[3][2] + ")";
+  color5.textContent = "HSL = (" + palette[4][0] + ", " + palette[4][1] + ", " + palette[4][2] + ")";
+  color6.textContent = "HSL = (" + palette[5][0] + ", " + palette[5][1] + ", " + palette[5][2] + ")";
+  color7.textContent = "HSL = (" + palette[6][0] + ", " + palette[6][1] + ", " + palette[6][2] + ")";
+}
