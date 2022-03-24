@@ -55,7 +55,7 @@ https://www.w3schools.com/colors/colors_picker.asp
 
 	// Lightness constants
 
-	const light1 = 14;
+	const light1 = 18; // was 14
 	const light2 = 28;
 	const light3 = 42;
 	const light4 = 57;
@@ -510,6 +510,11 @@ let hueconversionarray = [inputred, inputyellow, inputblue];
 				//let c = Math.floor(Math.random() * 361);
 				let d = (neededColors[3] == undefined) ? Math.floor(Math.random() * 361) : neededColors[3];
 
+				let acheck = (neededColors[0] == undefined) ? null : 0;
+				let bcheck = (neededColors[1] == undefined) ? null : 0;
+				let ccheck = (neededColors[2] == undefined) ? null : 0;
+				let dcheck = (neededColors[3] == undefined) ? null : 0;
+
 			for (let i = 0; i < 7; i++) {
 				  // use array to store a, b, c , d etc 
 					// for actual function assign variablearray[0]  = inputarray[huevalue0];
@@ -542,23 +547,96 @@ let hueconversionarray = [inputred, inputyellow, inputblue];
 				if ((anum >= bnum) && (anum >= cnum) && (anum >= dnum)) {
 					// [H, S, L] values
 					palette[i][0] = [a];
+					acheck += 1;
 				}
 				else if ((bnum >= cnum) && (bnum >= dnum)) {
 					palette[i][0] = [b];
+					bcheck += 1;
 				}
 				else if (cnum >= dnum) {
 					palette[i][0] = [c];
+					ccheck += 1;
 				}
 				else {
 					palette[i][0] = [d];
+					dcheck += 1;
 				}
-
 				// use includes() to check if all colors are in array at least once
 				// if not use if statement to reassign a value 
 				// then check by going through all the colors again
 				// using for / while loop? 
 				// look into using continue[] to restart loop if any of the if statements are entered
 			}
+
+			let x = 0;
+
+			while (x == 0) {
+				if (acheck <= 0 && acheck != null){
+					temp = palette[0][0];
+					if (temp == b){
+						bcheck -= 1;
+					}
+					else if (temp == c){
+						ccheck -= 1;
+					}
+					else {
+						dcheck -= 1;
+					}
+					palette[0][0] = a;
+					acheck += 1;
+					continue;
+				}
+
+				if (bcheck <= 0 && bcheck != null){
+					temp = palette[1][0];
+					if (temp == a){
+						acheck -= 1;
+					}
+					else if (temp == c){
+						ccheck -= 1;
+					}
+					else {
+						dcheck -= 1;
+					}
+					palette[1][0] = b;
+					bcheck += 1;
+					continue;
+				}
+
+				if (ccheck <= 0 && ccheck != null){
+					temp = palette[2][0];
+					if (temp == a){
+						acheck -= 1;
+					}
+					else if (temp == b){
+						bcheck -= 1;
+					}
+					else {
+						dcheck -= 1;
+					}
+					palette[2][0] = c;
+					ccheck += 1;
+					continue;
+				}
+
+				if (dcheck <= 0 && dcheck != null){
+					temp = palette[3][0];
+					if (temp == a){
+						acheck -= 1;
+					}
+					else if (temp == b){
+						bcheck -= 1;
+					}
+					else {
+						ccheck -= 1;
+					}
+					palette[3][0] = d;
+					dcheck += 1;
+					continue;
+				}
+				break;
+			}
+
 
 		}
 
