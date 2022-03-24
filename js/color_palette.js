@@ -1,275 +1,171 @@
 /* 
 Color Palette Generator (with more color theory applied) (maybe more useful for artists)
 Written by Tomch546
-References: 
-
-Color: 
-
-https://www.clipstudio.net/how-to-draw/archives/156922
-https://drawpaintacademy.com/a-comprehensive-guide-to-color-theory-for-artists/
-
-Code: 
-https://www.ethangardner.com/articles/2009/03/15/a-math-based-approach-to-color-theory-using-hue-saturation-and-brightness-hsb/
-https://css-tricks.com/converting-color-spaces-in-javascript/
-http://www.easyrgb.com/en/math.php
-https://www.techonthenet.com/js/continue.php
-https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/color
-https://sebhastian.com/javascript-change-text-on-page/
-https://stackoverflow.com/questions/8739605/getelementbyid-returns-null
-https://web.archive.org/web/20130525061042/www.insanit.net/tag/rgb-to-ryb/
-https://stackoverflow.com/questions/8507885/shift-hue-of-an-rgb-color
-https://bahamas10.github.io/ryb/about.html
-https://stackoverflow.com/questions/37055755/computing-complementary-triadic-tetradic-and-analagous-colors
-https://stackoverflow.com/questions/14095849/calculating-the-analogous-color-with-python/14116553#14116553
-https://stackoverflow.com/questions/56652365/algorithm-to-generate-ryb-color-wheel
-https://stackoverflow.com/questions/25706700/hsl-colors-to-pigmentation
-
-General Reference: 
-
-https://www.w3schools.com/colors/colors_hsl.asp
-https://www.w3schools.com/colors/colors_picker.asp
-
+References at end of file
 */
 
-// TODO delete everything with "test" label 
-// add random math option when loading in values (hue and sat and light) to spice things up a little (just a little)
-//			want them to be slightly off mathematically calculated exact value (at most 5? 10? 15?  off from either side)
-// add in check to see all colors are distinct from each other (if all three values too close when comparing the two then redo one of them)
-// update sat and light load logic to match loadcolor
+/* TODO (js function related)
+Finish last few color space conversions
+Random microadjustment function
+Saturation / lightness cutoffs (slider?)
+Greyscale color scheme
+*/
 
-// TODO
-// Microadjustment functions
-// Adjust array values so they fall within a certain range
-// Allow for small user adjustments
-// TODO implement greyscale
-	// Warmth
-
-	// Saturation 
-
-	// Lightness
-
-
+//// Bookmark
 // Constants / Presets / Variables
-	
-	// Hue constants
+//////
 
-		// define basic primarys, secondarys, some neutrals, greyscale
+// Saturation constants
+const sat1 = 14;
+const sat2 = 28;
+const sat3 = 42;
+const sat4 = 57;
+const sat5 = 71;
+const sat6 = 85;
+const sat7 = 94; // previously 99
 
-	// Saturation constants
-	// might need to be updated into an array instead
-	const sat1 = 14;
-	const sat2 = 28;
-	const sat3 = 42;
-	const sat4 = 57;
-	const sat5 = 71;
-	const sat6 = 85;
-	const sat7 = 94; // was 99
+// Lightness constants
+const light1 = 18; // previously 14
+const light2 = 28;
+const light3 = 42;
+const light4 = 57;
+const light5 = 71;
+const light6 = 85;
+const light7 = 94; // previously 99
 
-	// Lightness constants
+// Saturation presets
+const sat_standard = [sat1, sat3, sat5, sat6, sat5, sat3, sat1];
 
-	const light1 = 18; // was 14
-	const light2 = 28;
-	const light3 = 42;
-	const light4 = 57;
-	const light5 = 71;
-	const light6 = 85;
-	const light7 = 94; // was 99
+// Lightness presets
+const light_standard = [light7, light6, light5, light4, light3, light2, light1];
 
-	// Saturation presets
-
-	// TODO
-	// Let user choose presets? implement later
-
-	const sat_standard = [sat1, sat3, sat5, sat6, sat5, sat3, sat1];
-	
-	/* maybe don't need
-	const sat_dull =     [sat1, sat1, sat2, sat3, sat2, sat1, sat1];
-	const sat_heav =     [sat5, sat6, sat6, sat7, sat6, sat6, sat5];
-	const sat_mid =      [sat2, sat3, sat4, sat5, sat4, sat3, sat2];
-	const sat_one =      [sat2, sat2, sat2, sat4, sat2, sat2, sat2];
-	const sat_two =      [sat4, sat2, sat4, sat2, sat2, sat2, sat2];
-	*/
-
-	// Lightness presets
-
-	const light_standard = [light7, light6, light5, light4, light3, light2, light1];
-
-	// Palette array initialization and conversion functions
-
-	const palette = [];
-
-	function initializePalette() {
-
-		for (let i = 0; i < 7; i++) {
-			// [H, S, L] values
-			palette[i] = [120, 60, 70];
-		}
-
-		// test
-		console.log(palette);
-	}
-
-	const HSLpalette = [];
-
-	function convertArrayToHSL() {
-
-		for (let i = 0; i < 7; i++) {
-
-			HSLpalette[i] = "hsl(" + palette[i][0] + ", " + palette[i][1] + "%, " + palette[i][2] + "%)"; 
-		}
-
-		// test
-		console.log(HSLpalette);
-	}
-
-	// test
-	function changeColor(){
-		for (let i = 0; i < 7; i++) {
-			// [H, S, L] values
-			palette[i][0] = [180];
-		}
-	}
-
-
-// Input color / default color (randomly selected when loading page)
-
+// Input / default color
 let input_hex = "#66ffcc";
 
-// Opacity
-let opacity = 0;
-
-// HSL
+// Input array
 let input_hsl = [0, 0, 0];
 
-// RGB
-let red = 0;
-let green = 0;
-let blue = 0;
+// Output array
+let neededColors = [];
 
-let neededColors = []; // All calculated colors added to this array
+// Palette arrays
+const palette = [];
+const HSLpalette = [];
 
-
+// Function result arrays
 const rgb2rybresult = [0, 0, 0];
+const rgb2hslresult = [0, 0, 0];
+const ryb2rgbresult = [0, 0, 0];
+const hsl2rgbresult = [0, 0, 0];
 
-const rgb2hslresult = [0,0,0];
-
-// Result array
 const rotationresult = [0, 0, 0];
 
-
-const ryb2rgbresult =[0, 0, 0];
-
-
-// Get degrees from radians
+// Degrees constant for rotation function
 const deg = Math.PI / 180;
 
-	const hsl2rgbresult = [0, 0, 0];
+//// Bookmark
+// Color Conversions
+//////
 
-// Color conversions from HSL to HSLA, RGB, RGBA, and Hex
-// Conversion process for usable color:
-// input hex -> hsl -> rgb -> ryb -> rotation conversion -> rgb -> hsl (for display)
-// -> hex, (for info cards)
-
-
-	// HSL to RGB
-
-	function HSLToRGB(h,s,l) {
+// HSL to RGB
+function HSLToRGB(h,s,l) {
   // Must be fractions of 1
   s /= 100;
   l /= 100;
 
-  let c = (1 - Math.abs(2 * l - 1)) * s,
-      x = c * (1 - Math.abs((h / 60) % 2 - 1)),
-      m = l - c/2,
-      r = 0,
-      g = 0,
-      b = 0;
+	let c = (1 - Math.abs(2 * l - 1)) * s,
+    x = c * (1 - Math.abs((h / 60) % 2 - 1)),
+    m = l - c/2,
+    r = 0,
+    g = 0,
+    b = 0;
 
-      if (0 <= h && h < 60) {
-    		r = c; g = x; b = 0;  
-  		} else if (60 <= h && h < 120) {
-    		r = x; g = c; b = 0;
-  		} else if (120 <= h && h < 180) {
-    		r = 0; g = c; b = x;
-  		} else if (180 <= h && h < 240) {
-		    r = 0; g = x; b = c;
-  		} else if (240 <= h && h < 300) {
-		    r = x; g = 0; b = c;
- 			 } else if (300 <= h && h < 360) {
- 		   r = c; g = 0; b = x;
- 		 }
+  if (0 <= h && h < 60) {
+		r = c; g = x; b = 0;  
+	} 
+	else if (60 <= h && h < 120) {
+		r = x; g = c; b = 0;
+	} 
+	else if (120 <= h && h < 180) {
+		r = 0; g = c; b = x;
+	} 
+	else if (180 <= h && h < 240) {
+    r = 0; g = x; b = c;
+	} 
+	else if (240 <= h && h < 300) {
+    r = x; g = 0; b = c;
+	} 
+	else if (300 <= h && h < 360) {
+	   r = c; g = 0; b = x;
+	}
+
   r = Math.round((r + m) * 255);
   g = Math.round((g + m) * 255);
   b = Math.round((b + m) * 255);
 
-hsl2rgbresult[0] = r;
-hsl2rgbresult[1] = g;
-hsl2rgbresult[2] = b;
+	hsl2rgbresult[0] = r;
+	hsl2rgbresult[1] = g;
+	hsl2rgbresult[2] = b;
+}
 
-  return "rgb(" + r + "," + g + "," + b + ")";
+// HSLA to RGBA
+
+// HSL to Hex
+
+// Hex to HSL
+function hexToHSL(Hex) {
+	// Hex to RGB
+	let r = 0, g = 0, b = 0;
+
+	if (Hex.length == 4) {
+	  r = "0x" + Hex[1] + Hex[1];
+	  g = "0x" + Hex[2] + Hex[2];
+	  b = "0x" + Hex[3] + Hex[3];
+	} 
+	else if (Hex.length == 7) {
+	  r = "0x" + Hex[1] + Hex[2];
+	  g = "0x" + Hex[3] + Hex[4];
+	  b = "0x" + Hex[5] + Hex[6];
 	}
 
-	// HSLA to RGBA
+	// RGB to HSL
+	r /= 255;
+	g /= 255;
+	b /= 255;
 
+	let cmin = Math.min(r,g,b),
+	    cmax = Math.max(r,g,b),
+	    delta = cmax - cmin,
+	    h = 0,
+	    s = 0,
+	    l = 0;
 
+	if (delta == 0)
+	  h = 0;
+	else if (cmax == r)
+	  h = ((g - b) / delta) % 6;
+	else if (cmax == g)
+	  h = (b - r) / delta + 2;
+	else
+	  h = (r - g) / delta + 4;
 
-	// HSL to Hex
+	h = Math.round(h * 60);
 
-	// Hex to HSL
+	if (h < 0)
+	  h += 360;
 
-	function hexToHSL(H) { // copy pasted, edit later to suit needs
-		// usually don't need return string, just save values
-  // Convert hex to RGB first
-  let r = 0, g = 0, b = 0;
-  if (H.length == 4) {
-    r = "0x" + H[1] + H[1];
-    g = "0x" + H[2] + H[2];
-    b = "0x" + H[3] + H[3];
-  } else if (H.length == 7) {
-    r = "0x" + H[1] + H[2];
-    g = "0x" + H[3] + H[4];
-    b = "0x" + H[5] + H[6];
-  }
-  // Then to HSL
-  r /= 255;
-  g /= 255;
-  b /= 255;
-  let cmin = Math.min(r,g,b),
-      cmax = Math.max(r,g,b),
-      delta = cmax - cmin,
-      h = 0,
-      s = 0,
-      l = 0;
-
-  if (delta == 0)
-    h = 0;
-  else if (cmax == r)
-    h = ((g - b) / delta) % 6;
-  else if (cmax == g)
-    h = (b - r) / delta + 2;
-  else
-    h = (r - g) / delta + 4;
-
-  h = Math.round(h * 60);
-
-  if (h < 0)
-    h += 360;
-
-  l = (cmax + cmin) / 2;
-  s = delta == 0 ? 0 : delta / (1 - Math.abs(2 * l - 1));
-  s = +(s * 100).toFixed(1);
-  l = +(l * 100).toFixed(1);
+	l = (cmax + cmin) / 2;
+	s = delta == 0 ? 0 : delta / (1 - Math.abs(2 * l - 1));
+	s = +(s * 100).toFixed(1);
+	l = +(l * 100).toFixed(1);
   
-  // set conversion into input
+  // Load result array
   input_hsl[0] = h;
   input_hsl[1] = s;
   input_hsl[2] = l;
-
-  return "hsl(" + h + "," + s + "%," + l + "%)";
 }
 
 // RGB to HSL
-
 function RGBToHSL(r,g,b) {
   // Make r, g, and b fractions of 1
   r /= 255;
@@ -284,7 +180,6 @@ function RGBToHSL(r,g,b) {
       s = 0,
       l = 0;
 
-      // Calculate hue
   // No difference
   if (delta == 0)
     h = 0;
@@ -303,7 +198,8 @@ function RGBToHSL(r,g,b) {
   // Make negative hues positive behind 360°
   if (h < 0)
       h += 360;
-    // Calculate lightness
+
+  // Calculate lightness
   l = (cmax + cmin) / 2;
 
   // Calculate saturation
@@ -313,14 +209,11 @@ function RGBToHSL(r,g,b) {
   s = +(s * 100).toFixed(1);
   l = +(l * 100).toFixed(1);
 
+  // Load result array
 	rgb2hslresult[0] = h;
 	rgb2hslresult[1] = s;
 	rgb2hslresult[2] = l;
-
-  //compliment = h;
-  return "hsl(" + h + "," + s + "%," + l + "%)";
  }
-
 
 // RGB to RYB
 function rgb2ryb(r, g, b) {
@@ -412,9 +305,16 @@ function ryb2rgb(r, y, b) {
 	ryb2rgbresult[2] = b;
 }
 
-////
+// Array to HSL - for html display
+function convertArrayToHSL() {
+	for (let i = 0; i < 7; i++) {
+		HSLpalette[i] = "hsl(" + palette[i][0] + ", " + palette[i][1] + "%, " + palette[i][2] + "%)"; 
+	}
+}
+
+//// Bookmark
 // Color calculation functions
-////
+//////
 
 // Hue Rotation Function
 function rotateHue(r, x, b, rotationangle) {
@@ -538,9 +438,9 @@ function rectangle(array) {
 	neededColors.push(rgb2hslresult[0]);
 }
 
-////
+//// Bookmark
 // Color array populating functions
-////
+//////
 
 // Hue 
 function loadColor() { // Load in random for non-needed indexes
@@ -737,9 +637,9 @@ function loadLightRand() {
 	}
 }
 
-////
+//// Bookmark
 // HTML interactions
-////
+//////
 
 // Main function (populates array based on initial color and options chosen)
 function Load() {
@@ -762,6 +662,13 @@ window.onload = function() {
   radiobtn = document.getElementById("none"); // "none" radio selected by default
   radiobtn.checked = true;
 };
+
+// Palette initialization
+function initializePalette() {
+	for (let i = 0; i < 7; i++) {
+		palette[i] = [120, 60, 70];
+	}
+}
 
 // Color Input
 var colorWell;
@@ -811,8 +718,7 @@ function analyzeColor(myColor) {
 	}
 }
 
-// Palette Updater
-// Called when "load palette" button clicked in html file
+// Palette Updater - Called when "load palette" button clicked in html file
 function changeStyle(){
   Load();
 
@@ -861,3 +767,33 @@ function changeStyle(){
   color6.textContent = "HSL = (" + palette[5][0] + ", " + palette[5][1] + ", " + palette[5][2] + ")";
   color7.textContent = "HSL = (" + palette[6][0] + ", " + palette[6][1] + ", " + palette[6][2] + ")";
 }
+
+/*
+Website references
+
+Color: 
+
+https://www.clipstudio.net/how-to-draw/archives/156922
+https://drawpaintacademy.com/a-comprehensive-guide-to-color-theory-for-artists/
+
+Code: 
+https://www.ethangardner.com/articles/2009/03/15/a-math-based-approach-to-color-theory-using-hue-saturation-and-brightness-hsb/
+https://css-tricks.com/converting-color-spaces-in-javascript/
+http://www.easyrgb.com/en/math.php
+https://www.techonthenet.com/js/continue.php
+https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/color
+https://sebhastian.com/javascript-change-text-on-page/
+https://stackoverflow.com/questions/8739605/getelementbyid-returns-null
+https://web.archive.org/web/20130525061042/www.insanit.net/tag/rgb-to-ryb/
+https://stackoverflow.com/questions/8507885/shift-hue-of-an-rgb-color
+https://bahamas10.github.io/ryb/about.html
+https://stackoverflow.com/questions/37055755/computing-complementary-triadic-tetradic-and-analagous-colors
+https://stackoverflow.com/questions/14095849/calculating-the-analogous-color-with-python/14116553#14116553
+https://stackoverflow.com/questions/56652365/algorithm-to-generate-ryb-color-wheel
+https://stackoverflow.com/questions/25706700/hsl-colors-to-pigmentation
+
+General Reference: 
+
+https://www.w3schools.com/colors/colors_hsl.asp
+https://www.w3schools.com/colors/colors_picker.asp
+*/
