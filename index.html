@@ -36,81 +36,81 @@
 		<p id="input_color">Input color info updates here</p>
 
     	<button type="button" onclick="changeStyle()">Load Palette</button>
-<!-- 
-    	<p>An example demonstrating the use of the <code>&lt;input type="color"&gt;</code>control.
-    	</p> -->
 
 		<label for="colorWell">Color:</label>
 		<input type="color" value="#ff0000" id="colorWell">
 
-<h3>Color Scheme</h3>
-<label>
-	<input type="radio" name = "check" value="Triadic" onclick="analyzeColor(this.value);"> Triadic 
-</label>
-<label>
-	<input type="radio" name = "check" value="Complementary" onclick="analyzeColor(this.value);"> Complementary 
-</label>
-<label>
-	<input type="radio" name = "check" value="Split Complementary" onclick="analyzeColor(this.value);"> Split Complementary 
-</label>
-<label>
-	<input type="radio" name = "check" value="Monochrome" onclick="analyzeColor(this.value);"> Monochrome 
-</label>
-<label>
-	<input type="radio" name = "check" value="Analogus" onclick="analyzeColor(this.value);"> Analogus 
-</label>
-<label>
-	<input type="radio" name = "check" value="Square" onclick="analyzeColor(this.value);"> Square 
-</label>
-<label>
-	<input type="radio" name = "check" value="Rectangle" onclick="analyzeColor(this.value);"> Rectangle
-</label>
-<label>
-	<input id ="none" type="radio" name = "check" value="None" onclick="analyzeColor(this.value);"> None
-</label>
+		<h3>Color Scheme</h3>
+		<label>
+			<input type="radio" name = "check" value="Triadic" onclick="analyzeColor(this.value);"> Triadic 
+		</label>
+		<label>
+			<input type="radio" name = "check" value="Complementary" onclick="analyzeColor(this.value);"> Complementary 
+		</label>
+		<label>
+			<input type="radio" name = "check" value="Split Complementary" onclick="analyzeColor(this.value);"> Split Complementary 
+		</label>
+		<label>
+			<input type="radio" name = "check" value="Monochrome" onclick="analyzeColor(this.value);"> Monochrome 
+		</label>
+		<label>
+			<input type="radio" name = "check" value="Analogus" onclick="analyzeColor(this.value);"> Analogus 
+		</label>
+		<label>
+			<input type="radio" name = "check" value="Square" onclick="analyzeColor(this.value);"> Square 
+		</label>
+		<label>
+			<input type="radio" name = "check" value="Rectangle" onclick="analyzeColor(this.value);"> Rectangle
+		</label>
+		<label>
+			<input id ="none" type="radio" name = "check" value="None" onclick="analyzeColor(this.value);"> None
+		</label>
 
-		<p>input color will be loaded into palette generator once "load palette" button is pressed.
-		<br>can check by looking at "input_hex" value and "input_hue" value, input_hue gets loaded into the loadcolor() function
-		<br>Currently you need to select a color and scheme before clicking load, the generator defaults to random monochrome.
-		<br>you can switch between color schemes after selecting a color, just press load palette each time. 
-		<br>not inputting anything but changing the color scheme will result in random of that type.
+		<h3>
+			Usage Instructions
+		</h3>
+
+		<p>
+			Input a color using the selector
+		<br>
+			Click on a color scheme (the default "none" just shows random monochromatic palettes)
+		<br>
+			Click "Load"
+		<br>
+			Notes: You can continue pressing "Load" after changing either input color or scheme (doesn't have to be both)  
+		<br>
+
 		</p>
 
 		<div id ="colorsquares">
 
-		<div class="card" id="myDiv1" style="border:1px solid">
-			 <p id="color1">Color info here</p>
-    	</div>
-    	<br>
+			<div class="card" id="myDiv1" style="border:1px solid">
+				 <p id="color1">Color info here</p>
+	    	</div>
 
-		<div class="card" id="myDiv2" style="border:1px solid">
-        <p id="color2">Color info here</p>
-    	</div>
-    	<br>
+			<div class="card" id="myDiv2" style="border:1px solid">
+	        <p id="color2">Color info here</p>
+	    	</div>
 
-    	<div class="card" id="myDiv3" style="border:1px solid">
-    		 <p id="color3">Color info here</p>
-    	</div>
-    	<br>
+	    	<div class="card" id="myDiv3" style="border:1px solid">
+	    		 <p id="color3">Color info here</p>
+	    	</div>
 
-    	<div class="card" id="myDiv4" style="border:1px solid">
-    		 <p id="color4">Color info here</p>
-    	</div>
-    	<br>
+	    	<div class="card" id="myDiv4" style="border:1px solid">
+	    		 <p id="color4">Color info here</p>
+	    	</div>
 
-    	<div class="card" id="myDiv5" style="border:1px solid">
-    		 <p id="color5">Color info here</p>
-    	</div>
-    	<br>
+	    	<div class="card" id="myDiv5" style="border:1px solid">
+	    		 <p id="color5">Color info here</p>
+	    	</div>
 
-    	<div class="card" id="myDiv6" style="border:1px solid">
-    		 <p id="color6">Color info here</p>
-    	</div>
-    	<br>
+	    	<div class="card" id="myDiv6" style="border:1px solid">
+	    		 <p id="color6">Color info here</p>
+	    	</div>
 
-    	<div class="card" id="myDiv7" style="border:1px solid">
-    		 <p id="color7">Color info here</p>
-    	</div>
+	    	<div class="card" id="myDiv7" style="border:1px solid">
+	    		 <p id="color7">Color info here</p>
+	    	</div>
 
     	</div>
 	<!-- Color Selector -->
@@ -135,13 +135,17 @@
 
 	<!-- Alternate Color Displays -->
 
+<!-- Footer-->
 <footer>
 
-<!-- Footer-->
-
 	<!-- About Section-->
-
+	<div>
 		<!-- Links -->
+		<div>
+			GitHub page: <a href="https://github.com/Tomch546/ColorPaletteGenerator">here</a>
+		</div>
+
+	</div>
 
 </footer>
 
