@@ -816,12 +816,6 @@ let hueconversionarray = [inputred, inputyellow, inputblue];
 
 		}
 
-	/* Depending on user choice:
-	   1. Randomly assign lightness values using same logic as 'Hue' above
-	   Not all lightness values need to be used
-	   2. Apply preset lightness values to the global palette array
-	*/
-
 	// Color scheme selection based off radio input
 	var colorscheme = 0;
 
@@ -855,57 +849,7 @@ let hueconversionarray = [inputred, inputyellow, inputblue];
 }
 
  	// Test
- 	function Load() {
- 		input_hsl = [];
- 		neededColors = [];
- 		hexToHSL(input_hex);
-
- 		if (colorscheme != 0){
- 			colorscheme(input_hsl);
- 		}
-
- 		loadColor();
- 		//loadSaturation();
- 		loadSatRand();
- 		//loadLightRand();
- 		loadLight();
- 	}
-
- 	// // TEST
- 	// // takes selected input color, returns complimentary in hsl format
- 	// function complimentary(){
- 	// 	HSLToRGB(input_hsl[0], input_hsl[1], input_hsl[2]);
- 	// 	rgb2ryb(hsl2rgbresult[0], hsl2rgbresult[1], hsl2rgbresult[2]);
- 	// 	rotateHue(rgb2rybresult[0], rgb2rybresult[1], rgb2rybresult[2], 180);
- 	// 	// replace rotatehue here with comp()
- 	// 	ryb2rgb(rotationresult[0], rotationresult[1], rotationresult[2]);
- 	// 	RGBToHSL(ryb2rgbresult[0], ryb2rgbresult[1], ryb2rgbresult[2]);
- 	// 	neededColors[0] = input_hsl[0];
- 	// 	neededColors[1] = rgb2hslresult[0];
- 	// 	console.log(rgb2hslresult);
- 	// }
-//  	}
-// // TEST
-// function triadic(){
- 		
-//  		rotateHue(rgb2rybresult[0], rgb2rybresult[1], rgb2rybresult[2], 120);
-//  		// replace rotatehue here with comp()
-//  		ryb2rgb(rotationresult[0], rotationresult[1], rotationresult[2]);
-//  		RGBToHSL(ryb2rgbresult[0], ryb2rgbresult[1], ryb2rgbresult[2]);
- 		
-//  		neededColors[1] = rgb2hslresult[0];
-
-//  		console.log(rgb2hslresult);
-
-//  		rotateHue(rgb2rybresult[0], rgb2rybresult[1], rgb2rybresult[2], 240);
-//  		// replace rotatehue here with comp()
-//  		ryb2rgb(rotationresult[0], rotationresult[1], rotationresult[2]);
-//  		RGBToHSL(ryb2rgbresult[0], ryb2rgbresult[1], ryb2rgbresult[2]);
-
-// 		neededColors[2] = rgb2hslresult[0];
-
-//  		console.log(rgb2hslresult);
-//  	}
+ 	
 
 // Microadjustment functions
 // Adjust array values so they fall within a certain range
@@ -919,14 +863,26 @@ let hueconversionarray = [inputred, inputyellow, inputblue];
 
 
 // Main function (populates array based on initial color and options chosen)
+function Load() {
+ 	input_hsl = [];
+ 	neededColors = [];
+ 	hexToHSL(input_hex);
 
+ 	if (colorscheme != 0){
+ 		colorscheme(input_hsl);
+ 	}
+
+ 	loadColor(); 
+ 	loadSatRand(); // Can swap between preset and random functions
+ 	loadLight(); // Can saw between preset and random functions
+}
 
 // Color Display (javascript onclick detection)
 
-// TESTING
+// Initialization
 window.onload = function() {
   initializePalette();
-  radiobtn = document.getElementById("none");
+  radiobtn = document.getElementById("none"); // "none" radio selected by default
   radiobtn.checked = true;
 };
 
@@ -945,6 +901,7 @@ function updateAll(event) {
 	input_hex = event.target.value;
  }
 
+// Called when "load palette" button clicked in html file
 function changeStyle(){
 
 		Load();
@@ -991,10 +948,3 @@ function changeStyle(){
         color6.textContent = "HSL = (" + palette[5][0] + ", " + palette[5][1] + ", " + palette[5][2] + ")";
         color7.textContent = "HSL = (" + palette[6][0] + ", " + palette[6][1] + ", " + palette[6][2] + ")";
     }
-
-    //when "generate" button pressed -> take user input color
-    // read option values
-    // call respective population functions
-    // populate array
-    // display colors on html site
-    
