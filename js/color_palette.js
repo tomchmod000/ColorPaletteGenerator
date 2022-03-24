@@ -37,6 +37,18 @@ https://www.w3schools.com/colors/colors_picker.asp
 // add in check to see all colors are distinct from each other (if all three values too close when comparing the two then redo one of them)
 // update sat and light load logic to match loadcolor
 
+// TODO
+// Microadjustment functions
+// Adjust array values so they fall within a certain range
+// Allow for small user adjustments
+
+	// Warmth
+
+	// Saturation 
+
+	// Lightness
+
+
 // Constants / Presets / Variables
 	
 	// Hue constants
@@ -722,143 +734,118 @@ let hueconversionarray = [inputred, inputyellow, inputblue];
 
 		}
 
-	// Saturation
-
-	function loadSaturation() {
-
-		for (let i = 0; i < 7; i++) {
-				// [H, S, L] values
-				palette[i][1] = [sat_standard[i]];
-			}
-		// Test
-		console.log(palette);
-	}
-
-	// Test
-	function loadSatRand() {
-			
-			for (let i = 0; i < 7; i++) {
-				let a = 0;
-				let b = 0;
-				let c = 0;
-				let d = 0;
-
-				a = Math.floor(Math.random() * 90);
-				b = Math.floor(Math.random() * 70);
-				c = Math.floor(Math.random() * 50);
-				d = Math.floor(Math.random() * 101);
-
-				let anum;
-				let bnum;
-				let cnum;
-				let dnum;
-				// TODO maybe dont need floor, just compare math.randoms
-				anum = Math.floor(Math.random() * 100);
-				bnum = Math.floor(Math.random() * 100);
-				cnum = Math.floor(Math.random() * 100);
-				dnum = Math.floor(Math.random() * 100);
-				if ((anum >= bnum) && (anum >= cnum) && (anum >= dnum)) {
-					// [H, S, L] values
-					palette[i][1] = [a];
-				}
-				else if ((bnum >= cnum) && (bnum >= dnum)) {
-					palette[i][1] = [b];
-				}
-				else if (cnum >= dnum) {
-					palette[i][1] = [c];
-				}
-				else {
-					palette[i][1] = [d];
-				}
-			}
-
+// Preset Saturation
+function loadSaturation() {
+	for (let i = 0; i < 7; i++) {
+			palette[i][1] = [sat_standard[i]];
 		}
-	// Lightness
-	function loadLight() {
+}
 
-		for (let i = 0; i < 7; i++) {
-				// [H, S, L] values
-				palette[i][2] = [light_standard[i]];
-			}
-	}
+// Random Saturation
+function loadSatRand() {
+	for (let i = 0; i < 7; i++) {
+		let a = Math.floor(Math.random() * 90);
+		let b = Math.floor(Math.random() * 70);
+		let c = Math.floor(Math.random() * 50);
+		let d = Math.floor(Math.random() * 101);
 
-	// Test
-	function loadLightRand() {
-			let a = Math.floor(Math.random() * 101);
-			let b = Math.floor(Math.random() * 101);
-			let c = Math.floor(Math.random() * 101);
-			let d = Math.floor(Math.random() * 101);
+		let anum;
+		let bnum;
+		let cnum;
+		let dnum;
 
-			let anum;
-			let bnum;
-			let cnum;
-			let dnum;
+		// TODO maybe dont need floor, just compare math.randoms
+		anum = Math.floor(Math.random() * 100);
+		bnum = Math.floor(Math.random() * 100);
+		cnum = Math.floor(Math.random() * 100);
+		dnum = Math.floor(Math.random() * 100);
 
-			for (let i = 0; i < 7; i++) {
-				anum = Math.floor(Math.random() * 100);
-				bnum = Math.floor(Math.random() * 100);
-				cnum = Math.floor(Math.random() * 100);
-				dnum = Math.floor(Math.random() * 100);
-				if ((anum >= bnum) && (anum >= cnum) && (anum >= dnum)) {
-					// [H, S, L] values
-					palette[i][2] = [a];
-				}
-				else if ((bnum >= cnum) && (bnum >= dnum)) {
-					palette[i][2] = [b];
-				}
-				else if (cnum >= dnum) {
-					palette[i][2] = [c];
-				}
-				else {
-					palette[i][2] = [d];
-				}
-			}
-
+		if ((anum >= bnum) && (anum >= cnum) && (anum >= dnum)) {
+			palette[i][1] = [a];
 		}
-
-	// Color scheme selection based off radio input
-	var colorscheme = 0;
-
-	function analyzeColor(myColor) {
-	switch (myColor)
-	{
-	case "Triadic":
-		colorscheme = triad;
-		break
-	case "Complementary":
-		colorscheme = comp;
-		break
-	case "Monochrome":
-		colorscheme = mono;
-		break
-	case "Analogus":
-		colorscheme = anal;
-		break
-	case "Square":
-		colorscheme = square;
-		break
-	case "Rectangle":
-		colorscheme = rectangle;
-		break
-	case "Split Complementary":
-		colorscheme = splitcomp;
-		break
-	default:
-		colorscheme = 0;
+		else if ((bnum >= cnum) && (bnum >= dnum)) {
+			palette[i][1] = [b];
+		}
+		else if (cnum >= dnum) {
+			palette[i][1] = [c];
+		}
+		else {
+			palette[i][1] = [d];
+		}
 	}
 }
 
-// TODO
-// Microadjustment functions
-// Adjust array values so they fall within a certain range
-// Allow for small user adjustments
+// Preset Lightness
+function loadLight() {
+	for (let i = 0; i < 7; i++) {
+			palette[i][2] = [light_standard[i]];
+	}
+}
 
-	// Warmth
+// Random Lightness
+function loadLightRand() {
+	let a = Math.floor(Math.random() * 101);
+	let b = Math.floor(Math.random() * 101);
+	let c = Math.floor(Math.random() * 101);
+	let d = Math.floor(Math.random() * 101);
 
-	// Saturation 
+	let anum;
+	let bnum;
+	let cnum;
+	let dnum;
 
-	// Lightness
+	for (let i = 0; i < 7; i++) {
+		anum = Math.floor(Math.random() * 100);
+		bnum = Math.floor(Math.random() * 100);
+		cnum = Math.floor(Math.random() * 100);
+		dnum = Math.floor(Math.random() * 100);
 
+		if ((anum >= bnum) && (anum >= cnum) && (anum >= dnum)) {
+			palette[i][2] = [a];
+		}
+		else if ((bnum >= cnum) && (bnum >= dnum)) {
+			palette[i][2] = [b];
+		}
+		else if (cnum >= dnum) {
+			palette[i][2] = [c];
+		}
+		else {
+			palette[i][2] = [d];
+		}
+	}
+
+}
+
+// Color scheme selection based off radio input
+var colorscheme = 0;
+
+function analyzeColor(myColor) {
+	switch (myColor) {
+		case "Monochrome":
+			colorscheme = mono;
+			break
+		case "Analogus":
+			colorscheme = anal;
+			break
+		case "Complementary":
+			colorscheme = comp;
+			break
+		case "Split Complementary":
+			colorscheme = splitcomp;
+			break
+		case "Triadic":
+			colorscheme = triad;
+			break
+		case "Square":
+			colorscheme = square;
+			break
+		case "Rectangle":
+			colorscheme = rectangle;
+			break
+		default:
+			colorscheme = 0;
+	}
+}
 
 // Main function (populates array based on initial color and options chosen)
 function Load() {
