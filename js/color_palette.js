@@ -148,6 +148,23 @@ let blue = 0;
 
 let neededColors = []; // All calculated colors added to this array
 
+
+const rgb2rybresult = [0, 0, 0];
+
+const rgb2hslresult = [0,0,0];
+
+// Result array
+const rotationresult = [0, 0, 0];
+
+
+const ryb2rgbresult =[0, 0, 0];
+
+
+// Get degrees from radians
+const deg = Math.PI / 180;
+
+	const hsl2rgbresult = [0, 0, 0];
+
 // Color conversions from HSL to HSLA, RGB, RGBA, and Hex
 // Conversion process for usable color:
 // input hex -> hsl -> rgb -> ryb -> rotation conversion -> rgb -> hsl (for display)
@@ -155,7 +172,6 @@ let neededColors = []; // All calculated colors added to this array
 
 
 	// HSL to RGB
-	const hsl2rgbresult = [0, 0, 0];
 
 	function HSLToRGB(h,s,l) {
   // Must be fractions of 1
@@ -253,7 +269,6 @@ hsl2rgbresult[2] = b;
 }
 
 // RGB to HSL
-const rgb2hslresult = [0,0,0];
 
 function RGBToHSL(r,g,b) {
   // Make r, g, and b fractions of 1
@@ -306,125 +321,112 @@ function RGBToHSL(r,g,b) {
   return "hsl(" + h + "," + s + "%," + l + "%)";
  }
 
- // Convert RGB to RYB
-const rgb2rybresult = [0, 0, 0];
 
-function rgb2ryb(r, g, b){
-
-	// Remove the whiteness from the color.
+// RGB to RYB
+function rgb2ryb(r, g, b) {
+	// Remove white
 	let w = parseFloat(Math.min(r, g, b));
 	r = parseFloat(r) - w;
 	g = parseFloat(g) - w;
 	b = parseFloat(b) - w;
 
-	let mg = Math.max(r, g, b);
+	let rgbmax = Math.max(r, g, b);
 
-	// Get the yellow out of the red+green.
+	// Get yellow out of the red & green.
 	let y = Math.min(r, g);
 	r -= y;
 	g -= y;
 
-	// If this unfortunate conversion combines blue and green, 
-	//then cut each in half to preserve the value's maximum range.
+	// If input has blue & green, cut in half to preserve max range
 	if (b > 0 && g > 0){
 		b /= 2.0;
 		g /= 2.0;
 	}
 
-	// Redistribute the remaining green.
+	// Redistribute remaining green.
 	y += g;
 	b += g;
 
 	// Normalize to values.
-	my = Math.max(r, y, b);
-	if (my > 0) {
-		n = mg / my;
+	let rybmax = Math.max(r, y, b);
+	if (rybmax > 0) {
+		n = rgbmax / rybmax;
 		r *= n;
 		y *= n;
 		b *= n;
 	}
+
 	// Add the white back in.
 	r += w;
 	y += w;
 	b += w;
 
+	// Load values into result array
 	rgb2rybresult[0] = r;
 	rgb2rybresult[1] = y;
 	rgb2rybresult[2] = b;
-
-	// And return back the ryb typed accordingly.
-	return (r + " " + y + " " + b);
 }
 
-// Convert RYB to RGB
-const ryb2rgbresult =[0, 0, 0];
-
-function ryb2rgb(r, y, b){
-	//t = type(r)
-
-	// Remove the whiteness from the color.
+// RYB to RGB
+function ryb2rgb(r, y, b) {
+	// Remove white
 	let w = parseFloat(Math.min(r, y, b));
 	r = parseFloat(r) - w;
 	y = parseFloat(y) - w;
 	b = parseFloat(b) - w;
 
-	let my = Math.max(r, y, b);
+	let rybmax = Math.max(r, y, b);
 
-	// Get the green out of the yellow and blue
+	// Take green out of blue and yellow
 	g = Math.min(y, b);
 	y -= g;
 	b -= g;
 
-	if (b > 0 && g > 0){
-
+	if (b > 0 && g > 0) {
 		b *= 2.0;
 		g *= 2.0;
-}
-	// Redistribute the remaining yellow.
+	}
+
+	// Redistribute remaining yellow.
 	r += y;
 	g += y;
 
 	// Normalize to values.
-	let mg = Math.max(r, g, b)
-	if (mg > 0) {
-		n = my / mg;
+	let rgbmax = Math.max(r, g, b);
+
+	if (rgbmax > 0) {
+		n = rybmax / rgbmax;
 		r *= n;
 		g *= n;
 		b *= n;
-}
+	}
+
 	// Add the white back in.
 	r += w;
 	g += w;
 	b += w;
 
+	// Load values into result array
 	ryb2rgbresult[0] = r;
 	ryb2rgbresult[1] = g;
 	ryb2rgbresult[2] = b;
-
-  // And return back the ryb typed accordingly.
-
-	return (r + " " + g + " " + b);
 }
 
 ////
 // Color calculation functions
 ////
 
-// cube rotation
-// figure this out and add comments
-
-// get degrees from radians
-const deg = Math.PI / 180;
-const rotationresult = [0, 0, 0];
-
+// Hue Rotation Function
 function rotateHue(r, x, b, rotationangle) {
   const cosA = Math.cos(rotationangle * deg);
   const sinA = Math.sin(rotationangle * deg);
+
   const neo = [
     cosA + (1 - cosA) / 3,
     (1 - cosA) / 3 - Math.sqrt(1 / 3) * sinA,
     (1 - cosA) / 3 + Math.sqrt(1 / 3) * sinA,
   ];
+
   const result = [
     r * neo[0] + x * neo[1] + b * neo[2],
     r * neo[2] + x * neo[0] + b * neo[1],
@@ -432,14 +434,10 @@ function rotateHue(r, x, b, rotationangle) {
   ];
 
   const rotation = result.map(x => uint8(x));
-  // might not need these, might be able to use returned array
+
   rotationresult[0] = rotation[0];
   rotationresult[1] = rotation[1];
   rotationresult[2] = rotation[2];
-
-  return result.map(x => uint8(x));
-
-  // returns stuff in rotationresult
 }
 
 function uint8(value) { // limits value
