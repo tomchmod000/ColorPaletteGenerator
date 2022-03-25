@@ -362,7 +362,7 @@ function mono(array) { // No need for rotation, array parameter included for con
 	neededColors.push(input_hsl[0]);
 }
 
-// Analogus - rotate 30, 330 degrees aka 30 degrees to each side
+// Analogous - rotate 30, 330 degrees aka 30 degrees to each side
 function anal(array) {
 	neededColors.push(input_hsl[0]);
 	HSL2ryb();
@@ -695,7 +695,7 @@ function analyzeColor(myColor) {
 		case "Monochrome":
 			colorscheme = mono;
 			break
-		case "Analogus":
+		case "Analogous":
 			colorscheme = anal;
 			break
 		case "Complementary":
