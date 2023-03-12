@@ -1,4 +1,4 @@
 # ColorPaletteGenerator
 
 
-https://tomch546.github.io/ColorPaletteGenerator/
+https://tomchmod000.github.io/ColorPaletteGenerator/
